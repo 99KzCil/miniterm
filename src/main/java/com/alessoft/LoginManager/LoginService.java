@@ -6,7 +6,6 @@ import com.alessoft.LoginManager.Repo.UserRepo;
 import com.alessoft.LoginManager.Utils.AES;
 import com.alessoft.LoginManager.Utils.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -20,8 +19,8 @@ public class LoginService {
     @Autowired
     private Jwt jwt;
 
-    @Autowired
-    private ApplicationEventPublisher publisher;
+    // @Autowired
+    // private ApplicationEventPublisher publisher;
 
 
     public ResponseEntity<Object> login(Map<String, String> params) {
