@@ -6,6 +6,7 @@ import com.alessoft.LoginManager.Repo.UserRepo;
 import com.alessoft.LoginManager.Utils.AES;
 import com.alessoft.LoginManager.Utils.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -19,18 +20,26 @@ public class LoginService {
     @Autowired
     private Jwt jwt;
 
+    @Autowired
+    private ApplicationEventPublisher publisher;
+
+
     public ResponseEntity<Object> login(Map<String, String> params) {
         try {
             checkFields(params);
             String username = params.get("username");
             String password = params.get("password");
             User user = repo.findByUsername(username);
-            if (!AES.matches(password, user.getPassword())) throw new Exception("failed");
+            if (!AES.matches(password, user.getPassword())) throw new Exception("Not Allowed");
             jwt.setJwtCookie(user);
             user.setPassword(null);
-            return ResponseEntity.ok().body(user);
+
+            // Event event = new Event("LOGIN", "user loggedin");
+            // publisher.publishEvent(event);
+
+            return ResponseEntity.ok(user);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
     }
 

@@ -1,8 +1,14 @@
 package com.alessoft;
 
 import java.util.TimeZone;
+import com.alessoft.LoginManager.Model.User;
+import com.alessoft.LoginManager.Repo.UserRepo;
+import com.alessoft.LoginManager.Utils.AES;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
@@ -15,4 +21,21 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+
+    @Autowired
+    private UserRepo userRepo;
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void doSomethingAfterStartup() {
+        if (userRepo.count() > 0) return;
+        User user = new User();
+        user.setUsername("admin");
+        user.setPassword(AES.encode("admin"));
+        userRepo.save(user);
+    }
+
+    // @EventListener(Event.class)
+    // public void handleContextStart(Event event) {
+    //     System.out.println(event);
+    // }
 }
