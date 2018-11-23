@@ -27,6 +27,14 @@ body {
   font-weight: bold;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
+.pad {
+  padding: 1rem;
+}
+
 .marginTop {
   margin-top: 1rem;
 }
@@ -143,4 +151,9 @@ html body .qs-datepicker {
       border-right-color: #000;
     }
   }
+}
+
+
+.terminal.xterm {
+  flex: 1;
 }

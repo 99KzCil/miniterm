@@ -19,10 +19,6 @@ public class LoginService {
     @Autowired
     private Jwt jwt;
 
-    // @Autowired
-    // private ApplicationEventPublisher publisher;
-
-
     public ResponseEntity<Object> login(Map<String, String> params) {
         try {
             checkFields(params);

@@ -34,8 +34,4 @@ public class Application {
         userRepo.save(user);
     }
 
-    // @EventListener(Event.class)
-    // public void handleContextStart(Event event) {
-    //     System.out.println(event);
-    // }
 }
