@@ -1,44 +1,61 @@
 <template>
-  <div id=sidebar>
-    <div class="title flex valign halign">
-      miniTerm
+  <div id="sidebar" class="flex column">
+    <div class="title flex valign noselect">
+      <i @click="iconClick" class="material-icons marginLeft pointer ">{{icon}}</i>
+      <h1 class="flex1 talign">{{title}}</h1>
     </div>
-    <div @click="localhost" class="pad pointer">
-      Localhost
+    <div v-if="page=='list'" class="content flex flex1 column">
+      <div @click="$parent.newConnection(connection)" class="connection flex valign pad pointer" v-for="connection in connections" :key="connection.id">
+        {{connection.name}}
+      </div>
     </div>
+    <settings v-if="page=='settings'" />
+
   </div>
 </template>
 
 <script>
+import Settings from "./Settings/Settings";
 export default {
+  components: {
+    Settings
+  },
+  watch: {
+    page(val) {
+      if (val == "list") this.load();
+    }
+  },
+  data() {
+    return {
+      icon: "settings",
+      page: "list",
+      title: "miniterm",
+      connections: []
+    };
+  },
+  mounted() {
+    this.load();
+  },
   methods: {
-    localhost() {
-      var connection = {
-        id: generateUUID(),
-        name: "localhost",
-        hostname: "localhost",
-        port: 22,
-        type: "ssh"
-      };
-      this.$parent.newConnection(connection);
+    load() {
+      this.$http.get("/api/connection/get").then(result);
+      function result(e) {
+        this.connections = e.body;
+      }
+    },
+    iconClick() {
+      if (this.page == "settings") {
+        this.page = "list";
+        this.icon = "settings";
+        this.title = "miniterm";
+      } else if (this.page == "list") {
+        this.page = "settings";
+        this.icon = "arrow_back_ios";
+        this.title = "settings";
+      }
     }
   }
 };
-function generateUUID() {
-  // Public Domain/MIT
-  var d = new Date().getTime();
-  if (
-    typeof performance !== "undefined" &&
-    typeof performance.now === "function"
-  ) {
-    d += performance.now(); //use high-precision timer if available
-  }
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
-    var r = (d + Math.random() * 16) % 16 | 0;
-    d = Math.floor(d / 16);
-    return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
-  });
-}
 </script>
 
 
@@ -48,9 +65,18 @@ function generateUUID() {
   width: 300px;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   .title {
-    height: 40px;
+    padding: 1rem;
+    justify-content: space-between;
     font-size: 20px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .content {
+    .connection {
+      transition: background 0.25s;
+      &:hover {
+        background: lightgray;
+      }
+    }
   }
 }
 </style>

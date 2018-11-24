@@ -23,6 +23,17 @@ body {
   font-family: Montserrat, -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Arial, sans-serif;
 }
 
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+h1 {
+  font-size: 27px;
+}
+
+
 .bold {
   font-weight: bold;
 }
@@ -33,6 +44,10 @@ body {
 
 .pad {
   padding: 1rem;
+}
+
+.marginTop2 {
+  margin-top: 2rem;
 }
 
 .marginTop {
@@ -67,12 +82,20 @@ body {
   flex-direction: column;
 }
 
+.talign {
+  text-align: center;
+}
+
 .halign {
   justify-content: center;
 }
 
 .valign {
   align-items: center;
+}
+
+.spaces {
+  justify-content: space-between;
 }
 
 .pointer {

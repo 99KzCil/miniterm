@@ -28,9 +28,11 @@ public class Application {
     @EventListener(ApplicationReadyEvent.class)
     public void doSomethingAfterStartup() {
         if (userRepo.count() > 0) return;
+        System.out.println("add new user");
         User user = new User();
         user.setUsername("admin");
         user.setPassword(AES.encode("admin"));
+        user.setType("admin");
         userRepo.save(user);
     }
 

@@ -16,11 +16,8 @@
 
 <script>
 import Vue from "vue";
+import Store from "@/Store";
 import Sidebar from "./Sidebar";
-
-import { Terminal } from "xterm";
-import * as fit from "xterm/lib/addons/fit/fit";
-var term = new Terminal();
 
 export default {
   components: {
@@ -33,17 +30,28 @@ export default {
   },
   methods: {
     newConnection(connection) {
+      this.$http
+        .post("/api/connection/newConnection", connection.id)
+        .then(result, result);
+      function result(e) {
+
+      }
+
       this.connections.push(connection);
       this.deactivate();
       connection.active = true;
-      this.$http.post("/api/ssh/open", connection).then(result, result);
-      function result(e) {
-        console.log(e);
-      }
-      term.destroy();
-      term = new Terminal();
-      term.open(document.getElementById("middle"));
-      term.write("Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ");
+
+      // var term = new Terminal();
+      // term.open(document.getElementById("middle"));
+      // term.write("Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ");
+      // var socket = new WebSocket(
+      //   "ws://" +
+      //     window.location.hostname +
+      //     ":8090/api/ssh?" +
+      //     Store.user.username +
+      //     "," +
+      //     connection.id
+      // );
     },
     activate(connection) {
       this.deactivate();

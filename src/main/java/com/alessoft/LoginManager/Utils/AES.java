@@ -24,6 +24,22 @@ public class AES {
         }
         return "";
     }
+   
+    public static String decode(String text) {
+        try {
+            Key aesKey = new SecretKeySpec(theKey, "AES");
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.DECRYPT_MODE, aesKey);
+            Base64.Decoder decoder = Base64.getDecoder();
+            byte[] decode = decoder.decode(text);
+
+            byte[] decryptedBytes = cipher.doFinal(decode);
+            return new String(decryptedBytes, "UTF8");
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return "";
+    }
 
     public static boolean matches(String check, String encoded) {
         return encoded.equals(encode(check));

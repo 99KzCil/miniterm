@@ -11,6 +11,7 @@ public class SSHSocketHandler implements WebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         System.out.println("new websocket connection");
+        System.out.println(session.getExtensions());
     }
 
     @Override

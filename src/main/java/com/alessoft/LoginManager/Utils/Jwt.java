@@ -21,7 +21,7 @@ public class Jwt {
     @Autowired
     private HttpServletResponse response;
 
-    private static final byte[] theKey = "¯¯\\(°_o)//¯¯((i dont_know_what pod_secret_is))¯¯\\(o_°)//¯¯".getBytes(StandardCharsets.UTF_8);
+    public static final byte[] theKey = "¯¯\\(°_o)//¯¯((i dont*know what the_secret_is))¯¯\\(o_°)//¯¯".getBytes(StandardCharsets.UTF_8);
 
     public String getUserNameFromJwtCookie() throws Exception {
         try {
