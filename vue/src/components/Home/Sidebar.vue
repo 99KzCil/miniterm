@@ -1,84 +1,79 @@
 <template>
-  <div id="sidebar" class="">
-    <div class="title flex valign noselect">
-      <i @click="iconClick" class="material-icons marginLeft pointer ">{{icon}}</i>
-      <h1 class="flex1 talign">{{title}}</h1>
-    </div>
-    <div v-if="page=='list'" class="content flex flex1 column">
-      <div @click="$parent.newConnection(connection)" class="connection flex valign pad pointer" v-for="connection in connections" :key="connection.id">
-        {{connection.name}}
-      </div>
-    </div>
-    <settings v-if="page=='settings'" />
+    <v-card fill-height height="100%" elevation-0>
+        <v-list subheader>
+            <v-subheader class="blue-grey white--text" dark>connections</v-subheader>
+            <v-list-tile avatar @click="addConnection">
+                <v-list-tile-avatar>
+                    <v-icon left>desktop_windows</v-icon>
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                    <v-list-tile-title>add connection</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
 
-  </div>
+            <v-divider color="white"></v-divider>
+
+            <v-list-tile v-for="connection in parent.connections" :key="connection.id" avatar @click="newSession(connection)">
+                <v-list-tile-content>
+                    <v-list-tile-title>
+                        <v-layout>
+                            {{connection.name}}
+                            <v-spacer></v-spacer>
+                            <v-icon small @click.stop="editConnection(connection)">edit</v-icon>
+                        </v-layout>
+                    </v-list-tile-title>
+                    <v-list-tile-sub-title>
+                        <v-layout>
+                            {{connection.host}}
+                            <v-spacer></v-spacer>
+                            <v-icon color="red" small @click.stop="deleteConnection(connection)">delete</v-icon>
+                        </v-layout>
+                    </v-list-tile-sub-title>
+                </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile v-if="parent.connections.length==0" avatar>
+                <v-list-tile-content>
+                    <v-list-tile-title>No connections added yet.</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
+
+        </v-list>
+        <connectionDialog />
+        <connectionDeleteDialog />
+    </v-card>
 </template>
 
 <script>
-import Settings from "./Settings/Settings";
+import ConnectionDialog from "./Dialogs/ConnectionDialog";
+import ConnectionDeleteDialog from "./Dialogs/ConnectionDeleteDialog";
 export default {
   components: {
-    Settings
+    ConnectionDialog,
+    ConnectionDeleteDialog
   },
-  watch: {
-    page(val) {
-      if (val == "list") this.load();
+  computed: {
+    parent() {
+      return this.$parent.$parent.$parent;
     }
-  },
-  data() {
-    return {
-      icon: "settings",
-      page: "list",
-      title: "miniterm",
-      connections: []
-    };
-  },
-  mounted() {
-    this.load();
   },
   methods: {
-    load() {
-      this.$http.get("/api/connection/get").then(result);
-      function result(e) {
-        this.connections = e.body;
-      }
+    addConnection() {
+      bus.$emit("showConnectionDialog", {});
     },
-    iconClick() {
-      if (this.page == "settings") {
-        this.page = "list";
-        this.icon = "settings";
-        this.title = "miniterm";
-      } else if (this.page == "list") {
-        this.page = "settings";
-        this.icon = "arrow_back_ios";
-        this.title = "settings";
-      }
+    editConnection(connection) {
+      bus.$emit("showConnectionDialog", connection);
+    },
+    deleteConnection(connection) {
+      bus.$emit("showDeleteDialog", connection);
+    },
+    newSession(connection) {
+      bus.$emit("newSession", connection);
     }
-  }
+  },
+  mounted() {}
 };
 </script>
 
-
-<style scoped lang=scss>
-#sidebar {
-  float: left;
-  height: 100%;
-  min-width: 300px;
-  max-width: 300px;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
-  .title {
-    height: 71px;
-    justify-content: space-between;
-    font-size: 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  .content {
-    .connection {
-      transition: background 0.25s;
-      &:hover {
-        background: lightgray;
-      }
-    }
-  }
-}
+<style>
 </style>

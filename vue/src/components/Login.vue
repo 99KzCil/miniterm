@@ -1,14 +1,27 @@
 <template>
-  <div id=login v-if="loaded" class="flex flex1 halign valign column">
-    <div class="title column valign">
-      <h1>miniTerm</h1>
-    </div>
-    <form @submit.prevent="login" class="flex column">
-      <input type="text" placeholder="username" v-model="user.username">
-      <input type="password" placeholder="password" v-model="user.password">
-      <input type="submit" :disabled="working" value="Login">
-    </form>
-  </div>
+  <v-app v-if="loaded">
+    <v-container fluid fill-height>
+      <v-layout align-center justify-center>
+        <v-flex md6 xl3>
+          <v-card>
+            <v-toolbar flat color="blue-grey" dark>
+              <v-toolbar-title>miniterm login</v-toolbar-title>
+            </v-toolbar>
+            <v-card-title primary-title>
+              <v-flex>
+                <v-form @submit.prevent="login">
+                  <v-text-field label="hidden" style="display:none"></v-text-field>
+                  <v-text-field v-model="user.username" label="username" required></v-text-field>
+                  <v-text-field v-model="user.password" type="password" label="password" required></v-text-field>
+                  <v-btn type="submit" :loading="working" @click="login" class="ma-0 text-lowercase" dark color="brown">Login</v-btn>
+                </v-form>
+              </v-flex>
+            </v-card-title>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
@@ -19,12 +32,19 @@ export default {
   data() {
     return {
       user: {},
+      valid: false,
       working: false,
       loaded: false
     };
   },
   mounted() {
     component = this;
+    bus.$off("logout");
+    bus.$on("logout", () => {
+      this.$http.post("/api/login/logout").then(() => {
+        Router.replace("/");
+      });
+    });
     this.$http.post("/api/login/check").then(result, result);
   },
   methods: {
@@ -49,25 +69,8 @@ function result(e) {
 }
 </script>
 
-<style scoped lang=scss>
-#login {
-  .title {
-    margin-bottom: 1rem;
-    width: 222px;
-    h1 {
-      text-align: center;
-      font-size: 38.8px;
-      color: #2d6bbf;
-    }
-    img {
-      width: 222px;
-      height: 46.17px;
-    }
-  }
-  input {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-  }
+<style lang=scss>
+.icon {
+  border-radius: 50%;
 }
 </style>
