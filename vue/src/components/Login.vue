@@ -9,11 +9,11 @@
             </v-toolbar>
             <v-card-title primary-title>
               <v-flex>
-                <v-form @submit.prevent="login">
+                <v-form @submit.stop.prevent="login">
                   <v-text-field label="hidden" style="display:none"></v-text-field>
                   <v-text-field v-model="user.username" label="username" required></v-text-field>
                   <v-text-field v-model="user.password" type="password" label="password" required></v-text-field>
-                  <v-btn type="submit" :loading="working" @click="login" class="ma-0 text-lowercase" dark color="brown">Login</v-btn>
+                  <v-btn type="submit" :loading="working" @click.stop.prevent="login" class="ma-0 text-lowercase" dark color="brown">Login</v-btn>
                 </v-form>
               </v-flex>
             </v-card-title>

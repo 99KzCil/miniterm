@@ -19,16 +19,19 @@
       </v-container>
     </v-content>
     <session />
+    <socket />
   </v-app>
 </template>
 
 <script>
 import Sidebar from "./Sidebar";
 import Session from "./Session";
+import Socket from "./Socket";
 export default {
   components: {
     Sidebar,
-    Session
+    Session,
+    Socket
   },
   data() {
     return {
