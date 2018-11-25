@@ -72,6 +72,7 @@ public class SessionService {
 
     public void keySSH(String username, String sessionId, String key) throws Exception {
         Session session = sessions.get(username).get(sessionId);
+        if (session == null) return;
         session.getSshService().send(key);
     }
 
@@ -91,5 +92,14 @@ public class SessionService {
         SSHService sshService = session.getSshService();
         sshService.sendCache(session);
 
+    }
+
+    public ResponseEntity<Object> remove(String sessionId) throws Exception {
+        String username = jwt.getUserNameFromJwtCookie();
+        Map<String, Session> userSessions = sessions.get(username);
+        Session session = userSessions.get(sessionId);
+        session.getSshService().endConnection();
+        userSessions.remove(sessionId);
+        return ResponseEntity.ok("");
     }
 }

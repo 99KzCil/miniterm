@@ -1,5 +1,5 @@
 <template>
-  <div id="sidebar" class="flex column">
+  <div id="sidebar" class="">
     <div class="title flex valign noselect">
       <i @click="iconClick" class="material-icons marginLeft pointer ">{{icon}}</i>
       <h1 class="flex1 talign">{{title}}</h1>
@@ -61,8 +61,10 @@ export default {
 
 <style scoped lang=scss>
 #sidebar {
-  flex-shrink: 0;
-  width: 300px;
+  float: left;
+  height: 100%;
+  min-width: 300px;
+  max-width: 300px;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   .title {
     height: 71px;

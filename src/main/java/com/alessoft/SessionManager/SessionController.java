@@ -19,8 +19,14 @@ public class SessionController {
     public ResponseEntity<Object> getSessions() throws Exception {
         return sessionService.getSessions();
     }
+
     @RequestMapping(path = "newSession", method = RequestMethod.POST)
     public ResponseEntity<Object> newSession(@RequestBody String connectionId) throws Exception {
         return sessionService.newSession(connectionId);
+    }
+
+    @RequestMapping(path = "remove", method = RequestMethod.POST)
+    public ResponseEntity<Object> remove(@RequestBody String sessionId) throws Exception {
+        return sessionService.remove(sessionId);
     }
 }

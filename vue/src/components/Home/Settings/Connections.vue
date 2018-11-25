@@ -11,7 +11,7 @@
       </div>
       <div class="flex flex1 column pad marginTop">
         <div v-for="connection in connections" :key="connection.id" class="flex valign spaces">
-          <span>{{connection.name}}</span>
+          <span class="connectionName">{{connection.name}}</span>
           <span>
             <i @click="edit(connection)" class="material-icons pointer">edit</i>
             <i @click="remove(connection)" class="material-icons pointer">delete</i>
@@ -78,6 +78,13 @@ export default {
   }
   .content {
     overflow-y: auto;
+  }
+  .connectionName {
+    display: inline-block;
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
   }
 }
 </style>

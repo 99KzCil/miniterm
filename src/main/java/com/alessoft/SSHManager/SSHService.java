@@ -20,6 +20,7 @@ public class SSHService {
     private JSch jsch = new JSch();
     private Executor executor = Executors.newCachedThreadPool();
     private Channel channel;
+    private Session sshSession;
     private com.alessoft.SessionManager.Session session;
     private String cache = "";
     private int rows, cols;
@@ -28,6 +29,9 @@ public class SSHService {
     public void startConnection(com.alessoft.SessionManager.Session session, Connection connection, int rows, int cols) {
         if (channel != null && channel.isConnected()) {
             writeToWebSocket("///term///" + cache);
+            this.rows = rows;
+            this.cols = cols;
+            ((ChannelShell) channel).setPtySize(cols, rows, 0, 0);
             return;
         }
         this.session = session;
@@ -35,9 +39,7 @@ public class SSHService {
         this.cols = cols;
         this.connection = connection;
         try {
-
-
-            Session sshSession = jsch.getSession(connection.getUsername(), connection.getHost(), connection.getPort());
+            sshSession = jsch.getSession(connection.getUsername(), connection.getHost(), connection.getPort());
             if (connection.getPrivateKey() != null) {
                 if (connection.getPrivateKeyPassword() != null) {
                     jsch.addIdentity(AES.decode(connection.getPrivateKey()), AES.encode(connection.getPrivateKeyPassword()));
@@ -62,7 +64,7 @@ public class SSHService {
                         if (read < 0) break;
                         String incoming = new String(tmp, 0, read);
                         cache += incoming;
-                        if (cache.length() > rows * cols * 15) cache = cache.substring(cache.length() - rows * cols * 15, cache.length());
+                        if (cache.length() > rows * cols * 35) cache = cache.substring(cache.length() - rows * cols * 35, cache.length());
                         writeToWebSocket("///term///" + incoming);
                     }
                 } catch (IOException e) {
@@ -70,13 +72,15 @@ public class SSHService {
                 }
                 writeToWebSocket("///setClosed///");
                 session.setState("closed");
-                cache += "\r\n---press enter to relogin---\r\n\r\n";
+                cache += "\r\n---press enter to relogin---\r\n\r\n---press escape to close tab---\r\n\r\n";
                 writeToWebSocket("///term///\r\n---press enter to relogin---\r\n\r\n");
+                writeToWebSocket("///term///---press escape to close tab---\r\n\r\n");
+
             });
 
 
             writeToWebSocket("///term///Connecting to " + connection.getName() + "...\r\n\r\n");
-            ((ChannelShell) channel).setPtyType("xterm", cols, rows, 0, 0);
+            ((ChannelShell) channel).setPtyType("xterm-256color", cols, rows, 0, 0);
             channel.connect();
             writeToWebSocket("///setStarted///");
             session.setState("started");
@@ -88,11 +92,11 @@ public class SSHService {
         }
     }
 
-    private void writeToWebSocket(String message) {
+    private synchronized void writeToWebSocket(String message) {
         try {
             if (session.isActive() && session.getWebSocketSession().isOpen()) session.getWebSocketSession().sendMessage(new TextMessage(message));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("could not write to socket, " + e.getMessage());
         }
     }
 
@@ -115,6 +119,11 @@ public class SSHService {
     public void sendCache(com.alessoft.SessionManager.Session session) {
         this.session = session;
         writeToWebSocket("///term///" + cache);
+    }
+
+    public void endConnection() {
+        if (channel != null) channel.disconnect();
+        if (sshSession != null) sshSession.disconnect();
     }
 
 
