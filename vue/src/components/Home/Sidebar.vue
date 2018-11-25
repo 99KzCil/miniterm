@@ -65,7 +65,7 @@ export default {
   width: 300px;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   .title {
-    padding: 1rem;
+    height: 71px;
     justify-content: space-between;
     font-size: 20px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);

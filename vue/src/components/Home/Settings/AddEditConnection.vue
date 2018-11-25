@@ -25,8 +25,12 @@
         <input type="password" v-model="$parent.connection.password">
       </div>
       <div class="flex valign inputContainer marginTop">
-        <span>public key</span>
-        <input type="text" v-model="$parent.connection.publickey">
+        <span>private key</span>
+        <input :disabled="true" type="password" v-model="$parent.connection.privateKey">
+      </div>
+       <div class="flex valign inputContainer marginTop">
+        <span>pk password</span>
+        <input :disabled="true" type="password" v-model="$parent.connection.privateKeyPassword">
       </div>
     </div>
     <div class="footer flex marginTop2 column">

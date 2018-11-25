@@ -19,17 +19,15 @@ public class ConnectionController {
     public ResponseEntity<String> save(@RequestBody Map<String, String> params) {
         return connectionService.save(params);
     }
+
     @RequestMapping(path = "get", method = RequestMethod.GET)
     public ResponseEntity<Object> get() throws Exception {
         return connectionService.get();
     }
+
     @RequestMapping(path = "remove", method = RequestMethod.POST)
     public ResponseEntity<String> remove(@RequestBody Map<String, String> params) throws Exception {
         return connectionService.remove(params);
-    }
-    @RequestMapping(path = "newConnection", method = RequestMethod.POST)
-    public ResponseEntity<String> newConnection(@RequestBody String connectionId) {
-        return connectionService.newConnection(connectionId);
     }
 
 }

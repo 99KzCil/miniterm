@@ -13,6 +13,7 @@ public class AES {
 
     public static String encode(String text) {
         try {
+            if (text == null) return null;
             Key aesKey = new SecretKeySpec(theKey, "AES");
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, aesKey);
@@ -21,10 +22,10 @@ public class AES {
             return encoder.encodeToString(encrypted);
         } catch (Exception e) {
             e.printStackTrace(System.out);
+            return null;
         }
-        return "";
     }
-   
+
     public static String decode(String text) {
         try {
             Key aesKey = new SecretKeySpec(theKey, "AES");

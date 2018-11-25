@@ -12,8 +12,8 @@ import lombok.Data;
 public class Connection {
 
     @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "id", unique = true)
     private String id;
 
@@ -23,6 +23,7 @@ public class Connection {
     private int port;
     private String username;
     private String password;
-    private String publicKey;
+    private String privateKey;
+    private String privateKeyPassword;
 
 }

@@ -12,7 +12,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       "/api": {
-        target: "http://127.0.0.1:8090"
+        target: "http://127.0.0.1:8090",
+        ws: true
       }
     },
 
@@ -24,7 +25,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */
@@ -41,13 +42,13 @@ module.exports = {
   },
 
   build: {
-     // Template for index.html
-     index: path.resolve(__dirname, '../../src/main/resources/public/index.html'),
+    // Template for index.html
+    index: path.resolve(__dirname, '../../src/main/resources/public/index.html'),
 
-     // Paths
-     assetsRoot: path.resolve(__dirname, '../../src/main/resources/public'),
-     assetsSubDirectory: 'static',
-     assetsPublicPath: './',
+    // Paths
+    assetsRoot: path.resolve(__dirname, '../../src/main/resources/public'),
+    assetsSubDirectory: 'static',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

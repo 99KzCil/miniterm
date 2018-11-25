@@ -1,27 +1,26 @@
 package com.alessoft.Config;
 
-import com.alessoft.SSHManager.SSHSocketHandler;
 import com.alessoft.SSHManager.SSHSocketHandshakeHandler;
-import org.springframework.context.annotation.Bean;
+import com.alessoft.SSHManager.SocketHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-import org.springframework.web.socket.handler.PerConnectionWebSocketHandler;
 
 
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
+    @Autowired
+    private SocketHandler socketHandler;
+
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(getHandler(), "/api/ssh")//
-                .setAllowedOrigins("*").addInterceptors(new SSHSocketHandshakeHandler());
-    }
-
-    @Bean
-    public PerConnectionWebSocketHandler getHandler() {
-        return new PerConnectionWebSocketHandler(SSHSocketHandler.class);
+        registry.addHandler(socketHandler, "/api/ssh")//
+                .setAllowedOrigins("*")//
+                .addInterceptors(new SSHSocketHandshakeHandler())//
+                .withSockJS().setHeartbeatTime(10000);
     }
 }

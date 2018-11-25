@@ -11,38 +11,26 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 import io.jsonwebtoken.Jwts;
 
 public class SSHSocketHandshakeHandler implements HandshakeInterceptor {
+
     @Override
     public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception {
-        ServletServerHttpRequest httpServletRequest = (ServletServerHttpRequest) serverHttpRequest;
-        if (!checkUser(httpServletRequest)) return false;
+        String username = getUsername(serverHttpRequest);
 
-        System.err.println(serverHttpRequest.getURI());
-        System.err.println(serverHttpRequest.getHeaders());
-
-        String[] query = httpServletRequest.getServletRequest().getQueryString().split(",");
-
-        String uuid = query[0];
-        long userId = Long.parseLong(query[1]);
-        int cols = Integer.parseInt(query[2]);
-        int rows = Integer.parseInt(query[3]);
-
-        map.put("uuid", uuid);
-        map.put("userId", userId);
-        map.put("cols", cols);
-        map.put("rows", rows);
+        // if no user is logged in, dont allow socket connection
+        if (username.isEmpty()) return false;
+        
+        map.put("username", username);
         return true;
     }
 
-    private boolean checkUser(ServletServerHttpRequest request) {
-        Cookie[] cookies = request.getServletRequest().getCookies();
+    private String getUsername(ServerHttpRequest request) {
+        ServletServerHttpRequest httpServletRequest = (ServletServerHttpRequest) request;
+        Cookie[] cookies = httpServletRequest.getServletRequest().getCookies();
         String access_token = getAccessToken(cookies);
-        if (access_token.isEmpty()) return false;
-      
-        // parseClaimsJws method throws if access_token is tampered with
-        Map<String, Object> body = Jwts.parser().setSigningKey(Jwt.theKey).parseClaimsJws(access_token).getBody();
-        System.out.println(body);
+        if (access_token.isEmpty()) return "";
 
-        return false;
+        // parseClaimsJws method throws if access_token is tampered with
+        return Jwts.parser().setSigningKey(Jwt.theKey).parseClaimsJws(access_token).getBody().get("username").toString();
     }
 
     private String getAccessToken(Cookie[] cookies) {

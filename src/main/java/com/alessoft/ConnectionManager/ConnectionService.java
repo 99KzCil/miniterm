@@ -16,17 +16,6 @@ public class ConnectionService {
     @Autowired
     private Jwt jwt;
 
-    public ResponseEntity<String> newConnection(String connectionId) {
-        try {
-            String username = jwt.getUserNameFromJwtCookie();
-                
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public ResponseEntity<String> save(Map<String, String> params) {
         try {
             // throws if not logged in
@@ -39,7 +28,8 @@ public class ConnectionService {
             connection.setPort(Integer.parseInt(params.get("port")));
             connection.setUsername(params.get("username"));
             connection.setPassword(AES.encode(params.get("password")));
-            connection.setPublicKey(AES.encode(params.get("publickey")));
+            connection.setPrivateKey(AES.encode(params.get("privateKey")));
+            connection.setPrivateKeyPassword(AES.encode(params.get("privateKeyPassword")));
             connectionRepo.save(connection);
             return ResponseEntity.ok("");
         } catch (Exception e) {
@@ -54,6 +44,8 @@ public class ConnectionService {
         Iterable<Connection> connections = connectionRepo.findAll();
         connections.forEach(connection -> {
             connection.setPassword(null);
+            connection.setPrivateKey(null);
+            connection.setPrivateKeyPassword(null);
         });
         return ResponseEntity.ok(connections);
     }
