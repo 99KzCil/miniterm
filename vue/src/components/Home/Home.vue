@@ -3,10 +3,10 @@
     <v-navigation-drawer stateless class="elevation-0" app light v-model="drawer">
       <sidebar />
     </v-navigation-drawer>
-    <v-toolbar class="elevation-0" dense color="blue-grey" dark app>
+    <v-toolbar dense class="elevation-0" color="blue-grey" dark app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>miniterm</v-toolbar-title>
-      <v-spacer></v-spacer>
+      <v-toolbar-title class="ml-0" style="flex-shrink:0;">miniterm</v-toolbar-title>
+      <navSessionList />
       <v-btn icon @click="logout">
         <v-icon>exit_to_app</v-icon>
       </v-btn>
@@ -27,11 +27,13 @@
 import Sidebar from "./Sidebar";
 import Session from "./Session";
 import Socket from "./Socket";
+import NavSessionList from "./NavSessionList";
 export default {
   components: {
     Sidebar,
     Session,
-    Socket
+    Socket,
+    NavSessionList
   },
   data() {
     return {
@@ -58,5 +60,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>

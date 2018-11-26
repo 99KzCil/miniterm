@@ -1,41 +1,41 @@
 <template>
-    <v-dialog v-model="dialog" width="400">
-        <v-card>
-            <v-card-title class="headline blue-grey white--text" dark>
-                <v-icon left dark>desktop_windows</v-icon>
-                <span class="ml-4">{{title}}</span>
-                <v-spacer></v-spacer>
-                <v-icon dark @click="dialog=false">cancel</v-icon>
-            </v-card-title>
+  <v-dialog v-model="dialog" width="400">
+    <v-card>
+      <v-card-title class="headline blue-grey white--text" dark>
+        <v-icon left dark>desktop_windows</v-icon>
+        <span class="ml-4">{{title}}</span>
+        <v-spacer></v-spacer>
+        <v-icon dark @click="dialog=false">cancel</v-icon>
+      </v-card-title>
 
-            <v-card-text class="pa-4">
-                <v-form ref="form" v-model="valid">
-                    <v-text-field label="hidden" style="display:none"></v-text-field>
-                    <v-text-field :rules="rules" v-model="connection.name" label="name" required></v-text-field>
-                    <v-text-field :rules="rules" v-model="connection.host" label="host" required></v-text-field>
-                    <v-text-field :rules="rules" v-model="connection.port" label="port" required type="number"></v-text-field>
-                    <v-text-field :rules="rules" v-model="connection.username" label="username" required></v-text-field>
-                    <v-text-field :rules="rules" v-model="connection.password" label="password" required type="password"></v-text-field>
-                    <v-text-field :disabled="true" type="password" v-model="connection.privateKey" label="privateKey"></v-text-field>
-                    <v-text-field :disabled="true" type="password" v-model="connection.privateKeyPassword" label="privateKeyPassword"></v-text-field>
-                </v-form>
-            </v-card-text>
+      <v-card-text class="pa-4">
+        <v-form ref="form" v-model="valid">
+          <v-text-field label="hidden" style="display:none"></v-text-field>
+          <v-text-field :rules="rules" v-model="connection.name" label="name" required></v-text-field>
+          <v-text-field :rules="rules" v-model="connection.host" label="host" required></v-text-field>
+          <v-text-field :rules="rules" v-model="connection.port" label="port" required type="number"></v-text-field>
+          <v-text-field :rules="rules" v-model="connection.username" label="username" required></v-text-field>
+          <v-text-field :rules="rules" v-model="connection.password" label="password" required type="password"></v-text-field>
+          <v-text-field :disabled="true" type="password" v-model="connection.privateKey" label="privateKey"></v-text-field>
+          <v-text-field :disabled="true" type="password" v-model="connection.privateKeyPassword" label="privateKeyPassword"></v-text-field>
+        </v-form>
+      </v-card-text>
 
-            <v-divider></v-divider>
+      <v-divider></v-divider>
 
-            <v-card-actions class="pa-3">
-                <v-btn color="red" dark class="text-lowercase" @click="dialog=false">
-                    <v-icon left>close</v-icon>
-                    cancel
-                </v-btn>
-                <v-spacer></v-spacer>
-                <v-btn :disabled="!valid" color="blue-grey" :dark="valid" class="text-lowercase" @click="saveConnection">
-                    <v-icon left dark>add</v-icon>
-                    add
-                </v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
+      <v-card-actions class="pa-3">
+        <v-btn color="red" dark class="text-lowercase" @click="dialog=false">
+          <v-icon left>close</v-icon>
+          cancel
+        </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn :disabled="!valid" color="blue-grey" :dark="valid" class="text-lowercase" @click="saveConnection">
+          <v-icon left dark>add</v-icon>
+          add
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>

@@ -8,7 +8,6 @@ var socket;
 export default {
   mounted() {
     socket = new SockJS("/api/ssh");
-    var that = this;
     socket.onopen = function() {
       bus.$emit("socketConnected");
     };
