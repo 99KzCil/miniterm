@@ -25,7 +25,6 @@ export default {
       });
     },
     newSession(connection) {
-      console.log(connection);
       this.$http.post("/api/session/newSession", connection.id).then(e => {
         this.sessions.push(e.body);
         this.activateSession(e.body);
@@ -34,6 +33,7 @@ export default {
     activateSession(session) {
       this.deactivateAll();
       session.active = true;
+      
     },
     deactivateAll() {
       this.sessions.forEach(session => {

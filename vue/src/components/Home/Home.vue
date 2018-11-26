@@ -1,12 +1,16 @@
 <template>
   <v-app>
     <v-navigation-drawer stateless class="elevation-0" app light v-model="drawer">
-      <sidebar />
+      <sidebar/>
     </v-navigation-drawer>
     <v-toolbar dense class="elevation-0" color="blue-grey" dark app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title class="ml-0" style="flex-shrink:0;">miniterm</v-toolbar-title>
-      <navSessionList />
+      <v-toolbar-title
+        class="ml-0 pointer hidden-sm-and-down"
+        style="flex-shrink:0;"
+        @click.stop="drawer = !drawer"
+      >miniterm</v-toolbar-title>
+      <navSessionList/>
       <v-btn icon @click="logout">
         <v-icon>exit_to_app</v-icon>
       </v-btn>
@@ -18,8 +22,9 @@
         </v-layout>
       </v-container>
     </v-content>
-    <session />
-    <socket />
+    <session/>
+    <socket/>
+    <terminal/>
   </v-app>
 </template>
 
@@ -28,12 +33,14 @@ import Sidebar from "./Sidebar";
 import Session from "./Session";
 import Socket from "./Socket";
 import NavSessionList from "./NavSessionList";
+import Terminal from "./Terminal"
 export default {
   components: {
     Sidebar,
     Session,
     Socket,
-    NavSessionList
+    NavSessionList,
+    Terminal
   },
   data() {
     return {
@@ -60,5 +67,6 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
+.pointer{cursor:pointer}
 </style>

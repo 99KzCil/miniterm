@@ -1,10 +1,13 @@
 <template>
-    <v-layout fill-height class="layout ml-3">
-        <!-- <v-divider vertical class="grey lighten-2"></v-divider> -->
-        <v-btn @click="activate(session)" :color="getColor(session)" v-for="session in sessions" :key="session.id">
-            {{session.connection.name}}
-        </v-btn>
-    </v-layout>
+  <v-layout fill-height class="layout ml-3">
+    <!-- <v-divider vertical class="grey lighten-2"></v-divider> -->
+    <v-btn
+      @click="activate(session)"
+      :color="getColor(session)"
+      v-for="session in sessions"
+      :key="session.id"
+    >{{session.connection.name}}</v-btn>
+  </v-layout>
 </template>
 
 <script>
@@ -16,12 +19,11 @@ export default {
   },
   mounted() {
     this.sessions = this.$parent.$parent.$parent.sessions;
-    console.log(this.$parent.$parent.$parent.sessions);
   },
   methods: {
     getColor(session) {
-      var color = "";
-      color = session.active ? "" : "lighten-3 ";
+        var color = "";
+          color = session.active ? "" : "lighten-3 ";
       if (session.state == "stopped") color += "red";
       if (session.state == "started") color += "green";
       return color;
@@ -33,7 +35,13 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang=scss>
+@media only screen and (max-width: 959px){
+.hidden-sm-and-down {
+    display: none!important;
+}
+
+  }
 .layout {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
