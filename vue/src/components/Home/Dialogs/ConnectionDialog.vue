@@ -46,9 +46,7 @@
       <v-divider></v-divider>
 
       <v-card-actions class="pa-3">
-        <v-btn color="red" dark class="text-lowercase" @click="dialog=false">
-          <v-icon left>close</v-icon>cancel
-        </v-btn>
+        <v-btn color="red" dark class="text-lowercase" @click="dialog=false">cancel</v-btn>
         <v-spacer></v-spacer>
         <v-btn
           :disabled="!valid"
@@ -56,9 +54,7 @@
           :dark="valid"
           class="text-lowercase"
           @click="saveConnection"
-        >
-          <v-icon left dark>add</v-icon>add
-        </v-btn>
+        >add</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

@@ -3,29 +3,30 @@
     <v-btn
       small
       @click="activate(session)"
+      @click.middle.stop="close(session)"
       :color="getColor(session)"
       v-for="session in orderedSessions"
       :key="session.id"
     >{{session.connection.name}}</v-btn>
+    <close-session-dialog/>
   </v-layout>
 </template>
 
 <script>
+import CloseSessionDialog from "./Dialogs/CloseSessionDialog";
 export default {
+  components: {
+    CloseSessionDialog
+  },
   computed: {
     orderedSessions() {
       return this.sessions.sort(function(a, b) {
         return parseInt(a.order) - parseInt(b.order);
       });
+    },
+    sessions() {
+      return this.$parent.$parent.$parent.sessions;
     }
-  },
-  data() {
-    return {
-      sessions: []
-    };
-  },
-  mounted() {
-    this.sessions = this.$parent.$parent.$parent.sessions;
   },
   methods: {
     getColor(session) {
@@ -38,6 +39,13 @@ export default {
     },
     activate(session) {
       bus.$emit("activateSession", session);
+    },
+    close(session) {
+      if (session.state == "started") {
+        bus.$emit("showCloseSessionDialog", session);
+      } else {
+        bus.$emit("removeSession", session);
+      }
     }
   }
 };

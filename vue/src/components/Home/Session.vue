@@ -1,6 +1,6 @@
 <template></template>
-
 <script>
+var currentSession;
 export default {
   mounted() {
     bus.$off("socketConnected");
@@ -12,6 +12,9 @@ export default {
     bus.$off("activateSession");
     bus.$on("activateSession", this.activateSession);
 
+    bus.$off("removeSession");
+    bus.$on("removeSession", this.removeSession);
+
     bus.$off("stateData");
     bus.$on("stateData", this.stateData);
 
@@ -19,7 +22,7 @@ export default {
     this.sessions = this.$parent.$parent.sessions;
 
     // to inform home component that loading is finished
-    this.loadingSessions = this.$parent.$parent.sessions;
+    this.loadingSessions = this.$parent.$parent.loadingSessions;
   },
   methods: {
     loadSessions() {
@@ -28,18 +31,21 @@ export default {
         for (var key in e.body)
           if (e.body.hasOwnProperty(key)) this.sessions.push(e.body[key]);
         if (this.sessions.length > 0) {
-          if (localStorage.currentSessionOrder) {
+          if (localStorage.currentSessionId) {
+            var remembered = false;
             this.sessions.forEach(session => {
-              if (session.order == localStorage.currentSessionOrder) {
+              if (session.id == localStorage.currentSessionId) {
                 this.activateSession(session);
+                remembered = true;
                 return;
               }
             });
+            if (!remembered) this.activateSession(this.sessions[0]);
           } else {
             this.activateSession(this.sessions[0]);
           }
         }
-        this.loadingSessions = false;
+        this.$parent.$parent.loadingSessions = false;
       });
     },
     newSession(connection) {
@@ -49,9 +55,24 @@ export default {
       });
     },
     activateSession(session) {
+      if (currentSession == session) return;
       this.deactivateAll();
       session.active = true;
+      currentSession = session;
       bus.$emit("activateTerminal", session);
+    },
+    removeSession(session) {
+      this.$http.post("/api/session/remove", session.id).then(() => {
+        this.$parent.$parent.sessions = this.$parent.$parent.sessions.filter(
+          e => {
+            return e.id != session.id;
+          }
+        );
+        this.sessions = this.$parent.$parent.sessions;
+        if (currentSession == session && this.sessions.length > 0)
+          this.activateSession(this.sessions[0]);
+        if (this.sessions.length == 0) bus.$emit("removeTerminal");
+      });
     },
     deactivateAll() {
       this.sessions.forEach(session => {

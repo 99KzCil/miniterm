@@ -12,6 +12,9 @@ export default {
     bus.$off("activateTerminal");
     bus.$on("activateTerminal", this.activateTerminal);
 
+    bus.$off("removeTerminal");
+    bus.$on("removeTerminal", this.removeTerminal);
+
     bus.$off("terminalData");
     bus.$on("terminalData", this.terminalData);
 
@@ -27,10 +30,10 @@ export default {
   methods: {
     activateTerminal(session) {
       Vue.nextTick(() => {
-        if (session != currentSession)
-          component.$parent.$parent.showTerminal = false;
-        localStorage.currentSessionOrder = session.order;
-        if (session != currentSession) component.initTerminal();
+        component.$parent.$parent.showTerminal = false;
+
+        localStorage.currentSessionId = session.id;
+        component.initTerminal();
         terminal.fit();
         currentSession = session;
         if (session.state != "closed") {
@@ -79,7 +82,13 @@ export default {
       terminal.reset();
       setTimeout(() => {
         terminal.scrollToBottom();
-      },150);
+      }, 150);
+    },
+    removeTerminal() {
+      if (terminal) {
+        terminal.destroy();
+        terminal = null;
+      }
     },
     terminalDataEntered(e) {
       var data = {

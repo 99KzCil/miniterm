@@ -9,9 +9,7 @@
       </v-card-title>
       <v-card-text>{{connection.name}} will be deleted, are you sure?</v-card-text>
       <v-card-actions class="pa-3">
-        <v-btn color="red" dark class="text-lowercase" @click="dialog=false">
-          <v-icon left>close</v-icon>no
-        </v-btn>
+        <v-btn color="red" dark class="text-lowercase" @click="dialog=false">no</v-btn>
         <v-spacer></v-spacer>
         <v-btn
           :loading="working"
@@ -19,9 +17,7 @@
           class="text-lowercase"
           dark
           @click="deleteConnection"
-        >
-          <v-icon left>delete</v-icon>yes
-        </v-btn>
+        >yes</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

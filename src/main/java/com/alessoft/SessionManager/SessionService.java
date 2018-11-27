@@ -98,8 +98,10 @@ public class SessionService {
         String username = jwt.getUserNameFromJwtCookie();
         Map<String, Session> userSessions = sessions.get(username);
         Session session = userSessions.get(sessionId);
-        session.getSshService().endConnection();
-        userSessions.remove(sessionId);
+        if (session != null) {
+            session.getSshService().endConnection();
+            userSessions.remove(sessionId);
+        }
         return ResponseEntity.ok("");
     }
 }
