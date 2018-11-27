@@ -1,5 +1,5 @@
 <template>
-  <v-layout fill-height class="layout">
+  <v-layout fill-height class="layout" align-center>
     <v-btn
       small
       @click="activate(session)"

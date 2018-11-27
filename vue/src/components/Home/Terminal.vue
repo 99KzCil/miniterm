@@ -26,12 +26,13 @@ export default {
   },
   methods: {
     activateTerminal(session) {
-      this.$parent.$parent.showTerminal = false;
-      currentSession = session;
-      localStorage.currentSessionOrder = session.order;
       Vue.nextTick(() => {
-        component.initTerminal();
+        if (session != currentSession)
+          component.$parent.$parent.showTerminal = false;
+        localStorage.currentSessionOrder = session.order;
+        if (session != currentSession) component.initTerminal();
         terminal.fit();
+        currentSession = session;
         if (session.state != "closed") {
           var data = {
             command: "activateSSH",
@@ -68,18 +69,35 @@ export default {
         });
         terminal.open(document.getElementById("terminalContainer"));
       }
-      terminal.off("data", this.terminalKeyPressed);
-      terminal.on("data", this.terminalKeyPressed);
+      terminal.off("data", this.terminalDataEntered);
+      terminal.on("data", this.terminalDataEntered);
+
+      terminal.off("key", this.terminalKeyPressed);
+      terminal.on("key", this.terminalKeyPressed);
+
       terminal.focus();
       terminal.reset();
+      setTimeout(() => {
+        terminal.scrollToBottom();
+      },150);
     },
-    terminalKeyPressed(e) {
+    terminalDataEntered(e) {
       var data = {
         command: "keySSH",
         sessionId: currentSession.id,
         key: e
       };
       bus.$emit("socketSend", data);
+    },
+    terminalKeyPressed(e) {
+      if (currentSession.state == "closed") {
+        if (e.charCodeAt(0) == 13) {
+          this.activateTerminal(currentSession);
+        }
+        if (e.charCodeAt(0) == 27) {
+          bus.$emit("removeSession", currentSession);
+        }
+      }
     },
     terminalData(data) {
       terminal.write(data.text);
