@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="400">
     <v-card>
-      <v-card-title class="headline blue-grey white--text" dark>
+      <v-card-title class="headline primary white--text" dark>
         <v-icon left dark>desktop_windows</v-icon>
         <span class="ml-4">delete connection</span>
         <v-spacer></v-spacer>
@@ -13,7 +13,7 @@
         <v-spacer></v-spacer>
         <v-btn
           :loading="working"
-          color="blue-grey"
+          color="616161"
           class="text-lowercase"
           dark
           @click="deleteConnection"

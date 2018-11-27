@@ -5,7 +5,11 @@ import Router from './Router'
 import App from './App'
 
 Vue.use(VueResource);
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  theme: {
+    primary: "#616161", // #E53935
+  }
+})
 
 import 'vuetify/dist/vuetify.min.css'
 import "./assets/index.scss"

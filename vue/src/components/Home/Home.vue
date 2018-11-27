@@ -3,7 +3,7 @@
     <v-navigation-drawer permanent class="elevation-0" app light>
       <sidebar/>
     </v-navigation-drawer>
-    <v-toolbar dense class="elevation-0" color="blue-grey" dark app>
+    <v-toolbar dense class="elevation-0" color="primary" dark app>
       <v-btn v-if="hideDrawer" flat icon small class="elevation-0 mr-3" @click="hideDrawer=false">
         <v-icon>arrow_right</v-icon>
       </v-btn>

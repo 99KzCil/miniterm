@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="400">
     <v-card>
-      <v-card-title class="headline blue-grey white--text" dark>
+      <v-card-title class="headline primary white--text" dark>
         <v-icon left dark>desktop_windows</v-icon>
         <span class="ml-4">close session</span>
         <v-spacer></v-spacer>
@@ -11,7 +11,7 @@
       <v-card-actions class="pa-3">
         <v-btn color="red" dark class="text-lowercase" @click="dialog=false">no</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="blue-grey" class="text-lowercase" dark @click="closeSession">yes</v-btn>
+        <v-btn color="secondary" class="text-lowercase" dark @click="closeSession">yes</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

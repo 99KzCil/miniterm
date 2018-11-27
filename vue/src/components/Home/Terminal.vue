@@ -18,6 +18,9 @@ export default {
     bus.$off("terminalData");
     bus.$on("terminalData", this.terminalData);
 
+    bus.$off("terminalFocus");
+    bus.$on("terminalFocus", this.terminalFocus);
+
     window.removeEventListener("resize", this.windowResized);
     window.addEventListener("resize", this.windowResized);
   },
@@ -125,7 +128,13 @@ export default {
             cols: terminal.cols
           };
           bus.$emit("socketSend", data);
+          terminal.focus();
         }, 100);
+      }
+    },
+    terminalFocus() {
+      if (terminal) {
+        terminal.focus();
       }
     }
   }

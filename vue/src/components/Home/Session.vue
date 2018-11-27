@@ -55,7 +55,10 @@ export default {
       });
     },
     activateSession(session) {
-      if (currentSession == session) return;
+      if (currentSession == session) {
+        bus.$emit("terminalFocus");
+        return;
+      }
       this.deactivateAll();
       session.active = true;
       currentSession = session;
