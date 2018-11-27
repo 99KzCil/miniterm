@@ -1,9 +1,12 @@
 <template>
-  <v-app>
-    <v-navigation-drawer permanent class="elevation-0" app light v-model="drawer">
+  <v-app id="vapp" :class="{hideDrawer:hideDrawer}">
+    <v-navigation-drawer permanent class="elevation-0" app light>
       <sidebar/>
     </v-navigation-drawer>
     <v-toolbar dense class="elevation-0" color="blue-grey" dark app>
+      <v-btn v-if="hideDrawer" flat icon small class="elevation-0 mr-3" @click="hideDrawer=false">
+        <v-icon>arrow_right</v-icon>
+      </v-btn>
       <navSessionList/>
       <v-btn icon @click="logout">
         <v-icon>exit_to_app</v-icon>
@@ -51,7 +54,7 @@ export default {
     return {
       loadingSessions: true,
       showTerminal: false,
-      drawer: false,
+      hideDrawer: false,
       sessions: [],
       connections: []
     };
@@ -74,11 +77,24 @@ export default {
 };
 </script>
 <style lang=scss scoped>
-#terminalContainer {
-  opacity: 0;
-  &.showTerminal {
-    opacity: 1;
-    transition: opacity 0.2s;
+#vapp {
+  &.hideDrawer {
+    .v-navigation-drawer {
+      transform: translateX(-300px) !important;
+    }
+    .v-content {
+      padding-left: 0 !important;
+    }
+    .v-toolbar {
+      padding-left: 0 !important;
+    }
+  }
+  #terminalContainer {
+    opacity: 0;
+    &.showTerminal {
+      opacity: 1;
+      transition: opacity 0.2s;
+    }
   }
 }
 </style>

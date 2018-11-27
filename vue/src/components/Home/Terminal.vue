@@ -68,7 +68,9 @@ export default {
             selection: "rgba(0, 0, 0, 0.3)"
           },
           fontFamily: "Lucida Console,monospace",
-          fontSize: 16
+          fontSize: 16,
+          cursorStyle: "block",
+          cursorBlink: true
         });
         terminal.open(document.getElementById("terminalContainer"));
       }

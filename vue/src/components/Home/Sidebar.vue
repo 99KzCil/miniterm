@@ -1,7 +1,14 @@
 <template>
   <v-card fill-height height="100%" elevation-0>
     <v-list subheader>
-      <v-subheader class="headline blue-grey white--text" dark>miniterm</v-subheader>
+      <v-subheader class="headline blue-grey white--text" dark>
+        <v-img max-height="32" max-width="32" style="margin:0 4px" src="/static/icon.png"/>
+        <span class="ml-3">miniterm</span>
+        <v-spacer></v-spacer>
+        <v-btn flat icon small class="elevation-0 ma-0" @click="$parent.$parent.$parent.hideDrawer=true">
+          <v-icon>arrow_left</v-icon>
+        </v-btn>
+      </v-subheader>
       <v-list-tile avatar @click="addConnection">
         <v-list-tile-avatar>
           <v-icon left>desktop_windows</v-icon>
