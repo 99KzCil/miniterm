@@ -19,12 +19,16 @@ export default {
     window.addEventListener("resize", this.windowResized);
   },
   beforeDestroy() {
-    terminal.destroy();
-    terminal = null;
+    if (terminal) {
+      terminal.destroy();
+      terminal = null;
+    }
   },
   methods: {
     activateTerminal(session) {
+      this.$parent.$parent.showTerminal = false;
       currentSession = session;
+      localStorage.currentSessionOrder = session.order;
       Vue.nextTick(() => {
         component.initTerminal();
         terminal.fit();
@@ -45,6 +49,9 @@ export default {
           };
           bus.$emit("socketSend", data);
         }
+        setTimeout(() => {
+          component.$parent.$parent.showTerminal = true;
+        }, 150);
       });
     },
     initTerminal() {
@@ -52,7 +59,7 @@ export default {
         terminal = new Terminal({
           theme: {
             foreground: "#000",
-            background: "#f0f0f0",
+            background: "#fafafa",
             cursor: "#000",
             selection: "rgba(0, 0, 0, 0.3)"
           },
@@ -61,8 +68,8 @@ export default {
         });
         terminal.open(document.getElementById("terminalContainer"));
       }
-      terminal.off("key", this.terminalKeyPressed);
-      terminal.on("key", this.terminalKeyPressed);
+      terminal.off("data", this.terminalKeyPressed);
+      terminal.on("data", this.terminalKeyPressed);
       terminal.focus();
       terminal.reset();
     },

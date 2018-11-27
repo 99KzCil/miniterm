@@ -1,10 +1,10 @@
 <template>
-  <v-layout fill-height class="layout ml-3">
-    <!-- <v-divider vertical class="grey lighten-2"></v-divider> -->
+  <v-layout fill-height class="layout">
     <v-btn
+      small
       @click="activate(session)"
       :color="getColor(session)"
-      v-for="session in sessions"
+      v-for="session in orderedSessions"
       :key="session.id"
     >{{session.connection.name}}</v-btn>
   </v-layout>
@@ -12,6 +12,13 @@
 
 <script>
 export default {
+  computed: {
+    orderedSessions() {
+      return this.sessions.sort(function(a, b) {
+        return parseInt(a.order) - parseInt(b.order);
+      });
+    }
+  },
   data() {
     return {
       sessions: []
@@ -42,20 +49,23 @@ export default {
     display: none !important;
   }
 }
+.v-btn:first-child {
+  margin-left: 0;
+}
 .layout {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-}
 
-::-webkit-scrollbar {
-  display: none;
-}
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
-}
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+  }
 
-::-webkit-scrollbar-thumb {
-  background: #b0bec5 !important;
+  ::-webkit-scrollbar-thumb {
+    background: #b0bec5 !important;
+  }
 }
 </style>

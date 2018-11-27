@@ -27,7 +27,18 @@ export default {
         this.sessions.length = 0;
         for (var key in e.body)
           if (e.body.hasOwnProperty(key)) this.sessions.push(e.body[key]);
-        if (this.sessions.length > 0) this.activateSession(this.sessions[0]);
+        if (this.sessions.length > 0) {
+          if (localStorage.currentSessionOrder) {
+            this.sessions.forEach(session => {
+              if (session.order == localStorage.currentSessionOrder) {
+                this.activateSession(session);
+                return;
+              }
+            });
+          } else {
+            this.activateSession(this.sessions[0]);
+          }
+        }
         this.loadingSessions = false;
       });
     },

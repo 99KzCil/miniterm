@@ -1,7 +1,7 @@
 <template>
   <v-card fill-height height="100%" elevation-0>
     <v-list subheader>
-      <v-subheader class="blue-grey white--text" dark>connections</v-subheader>
+      <v-subheader class="headline blue-grey white--text" dark>miniterm</v-subheader>
       <v-list-tile avatar @click="addConnection">
         <v-list-tile-avatar>
           <v-icon left>desktop_windows</v-icon>

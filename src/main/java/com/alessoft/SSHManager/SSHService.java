@@ -80,7 +80,7 @@ public class SSHService {
             });
 
             sendToTerminal("Connecting to " + connection.getName() + "...\r\n\r\n");
-            ((ChannelShell) channel).setPtyType("xterm-256color", cols, rows, 0, 0);
+            ((ChannelShell) channel).setPtyType("xterm", cols, rows, 0, 0);
             channel.connect();
             sendSetState("started");
             session.setState("started");
