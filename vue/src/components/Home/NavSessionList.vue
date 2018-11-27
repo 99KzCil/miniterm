@@ -22,9 +22,10 @@ export default {
   },
   methods: {
     getColor(session) {
-        var color = "";
-          color = session.active ? "" : "lighten-3 ";
+      var color = "";
+      color = session.active ? "" : "lighten-3 ";
       if (session.state == "stopped") color += "red";
+      if (session.state == "closed") color += "red";
       if (session.state == "started") color += "green";
       return color;
     },
@@ -35,20 +36,18 @@ export default {
 };
 </script>
 
-<style scoped lang=scss>
-@media only screen and (max-width: 959px){
-.hidden-sm-and-down {
-    display: none!important;
-}
-
+<style scoped lang="scss">
+@media only screen and (max-width: 959px) {
+  .hidden-sm-and-down {
+    display: none !important;
   }
+}
 .layout {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
+
 ::-webkit-scrollbar {
-  width: 1px;
-  height: 2px;
   display: none;
 }
 

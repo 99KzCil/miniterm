@@ -17,9 +17,10 @@
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
-        <v-layout v-if="sessions.length==0" class="mb-5" align-center justify-center>
+        <v-layout v-if="sessions.length==0 && !loadingSessions" class="mb-5" align-center justify-center>
           <span>There are no open sessions.</span>
         </v-layout>
+        <v-layout v-if="sessions.length>0" d-flex id="terminalContainer"></v-layout>
       </v-container>
     </v-content>
     <session/>
@@ -29,10 +30,10 @@
 </template>
 
 <script>
-import Sidebar from "./Sidebar";
-import Session from "./Session";
-import Socket from "./Socket";
-import NavSessionList from "./NavSessionList";
+import Sidebar from "./Sidebar"
+import Session from "./Session"
+import Socket from "./Socket"
+import NavSessionList from "./NavSessionList"
 import Terminal from "./Terminal"
 export default {
   components: {
@@ -44,6 +45,7 @@ export default {
   },
   data() {
     return {
+      loadingSessions: true,
       drawer: false,
       sessions: [],
       connections: []
@@ -52,21 +54,17 @@ export default {
   methods: {
     loadConnections() {
       this.$http.get("/api/connection/get").then(e => {
-        this.connections = e.body;
+        this.connections = e.body
       });
     },
     logout() {
-      bus.$emit("logout");
+      bus.$emit("logout")
     }
   },
   mounted() {
-    this.loadConnections();
-    bus.$off("loadConnections");
-    bus.$on("loadConnections", this.loadConnections);
+    this.loadConnections()
+    bus.$off("loadConnections")
+    bus.$on("loadConnections", this.loadConnections)
   }
 };
 </script>
-
-<style >
-.pointer{cursor:pointer}
-</style>

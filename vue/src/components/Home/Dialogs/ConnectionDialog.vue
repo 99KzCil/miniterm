@@ -13,11 +13,33 @@
           <v-text-field label="hidden" style="display:none"></v-text-field>
           <v-text-field :rules="rules" v-model="connection.name" label="name" required></v-text-field>
           <v-text-field :rules="rules" v-model="connection.host" label="host" required></v-text-field>
-          <v-text-field :rules="rules" v-model="connection.port" label="port" required type="number"></v-text-field>
+          <v-text-field
+            :rules="rules"
+            v-model="connection.port"
+            label="port"
+            required
+            type="number"
+          ></v-text-field>
           <v-text-field :rules="rules" v-model="connection.username" label="username" required></v-text-field>
-          <v-text-field :rules="rules" v-model="connection.password" label="password" required type="password"></v-text-field>
-          <v-text-field :disabled="true" type="password" v-model="connection.privateKey" label="privateKey"></v-text-field>
-          <v-text-field :disabled="true" type="password" v-model="connection.privateKeyPassword" label="privateKeyPassword"></v-text-field>
+          <v-text-field
+            :rules="rules"
+            v-model="connection.password"
+            label="password"
+            required
+            type="password"
+          ></v-text-field>
+          <v-text-field
+            :disabled="true"
+            type="password"
+            v-model="connection.privateKey"
+            label="privateKey"
+          ></v-text-field>
+          <v-text-field
+            :disabled="true"
+            type="password"
+            v-model="connection.privateKeyPassword"
+            label="privateKeyPassword"
+          ></v-text-field>
         </v-form>
       </v-card-text>
 
@@ -25,13 +47,17 @@
 
       <v-card-actions class="pa-3">
         <v-btn color="red" dark class="text-lowercase" @click="dialog=false">
-          <v-icon left>close</v-icon>
-          cancel
+          <v-icon left>close</v-icon>cancel
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn :disabled="!valid" color="blue-grey" :dark="valid" class="text-lowercase" @click="saveConnection">
-          <v-icon left dark>add</v-icon>
-          add
+        <v-btn
+          :disabled="!valid"
+          color="blue-grey"
+          :dark="valid"
+          class="text-lowercase"
+          @click="saveConnection"
+        >
+          <v-icon left dark>add</v-icon>add
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -69,11 +95,3 @@ export default {
   }
 };
 </script>
-
-<style>
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-</style>

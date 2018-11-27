@@ -1,6 +1,4 @@
-<template>
-
-</template>
+<template></template>
 
 <script>
 export default {
@@ -13,7 +11,15 @@ export default {
 
     bus.$off("activateSession");
     bus.$on("activateSession", this.activateSession);
+
+    bus.$off("stateData");
+    bus.$on("stateData", this.stateData);
+
+    // bind sessions array with home's
     this.sessions = this.$parent.$parent.sessions;
+
+    // to inform home component that loading is finished
+    this.loadingSessions = this.$parent.$parent.sessions;
   },
   methods: {
     loadSessions() {
@@ -22,6 +28,7 @@ export default {
         for (var key in e.body)
           if (e.body.hasOwnProperty(key)) this.sessions.push(e.body[key]);
         if (this.sessions.length > 0) this.activateSession(this.sessions[0]);
+        this.loadingSessions = false;
       });
     },
     newSession(connection) {
@@ -33,13 +40,21 @@ export default {
     activateSession(session) {
       this.deactivateAll();
       session.active = true;
-      
+      bus.$emit("activateTerminal", session);
     },
     deactivateAll() {
       this.sessions.forEach(session => {
         session.active = false;
       });
       this.$forceUpdate();
+    },
+    stateData(data) {
+      this.sessions.forEach(session => {
+        if (session.id == data.sessionId) {
+          session.state = data.state;
+          return;
+        }
+      });
     }
   }
 };

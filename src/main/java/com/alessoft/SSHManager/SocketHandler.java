@@ -1,6 +1,7 @@
 package com.alessoft.SSHManager;
 
 import com.alessoft.SessionManager.SessionService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.CloseStatus;
@@ -15,40 +16,28 @@ public class SocketHandler implements WebSocketHandler {
     private SessionService sessionService;
 
     @Override
-    public void handleMessage(WebSocketSession session, WebSocketMessage<?> webSocketMessage) throws Exception {
-        String message = webSocketMessage.getPayload().toString();
-        String username = session.getAttributes().get("username").toString();
-        String[] split = message.split("\\|\\|\\|");
-        String sessionId, key;
-        int rows, cols;
-        switch (split[0]) {
+    public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception {
+        JSONObject data = new JSONObject(webSocketMessage.getPayload().toString());
+        String username = webSocketSession.getAttributes().get("username").toString();
+
+        switch (data.getString("command")) {
             case "activateSSH":
-                sessionId = split[1];
-                rows = Integer.parseInt(split[2]);
-                cols = Integer.parseInt(split[3]);
-                sessionService.activateSSH(username, sessionId, rows, cols, session);
+                sessionService.activateSSH(username, data.getString("sessionId"), data.getInt("rows"), data.getInt("cols"), webSocketSession);
                 break;
             case "setPtySizeSSH":
-                sessionId = split[1];
-                rows = Integer.parseInt(split[2]);
-                cols = Integer.parseInt(split[3]);
-                sessionService.setPtySizeSSH(username, sessionId, rows, cols);
+                sessionService.setPtySizeSSH(username, data.getString("sessionId"), data.getInt("rows"), data.getInt("cols"));
                 break;
             case "keySSH":
-                sessionId = split[1];
-                key = split[2];
-                sessionService.keySSH(username, sessionId, key);
+                sessionService.keySSH(username, data.getString("sessionId"), data.getString("key"));
                 break;
             case "sendCacheSSH":
-                sessionId = split[1];
-                rows = Integer.parseInt(split[2]);
-                cols = Integer.parseInt(split[3]);
-                sessionService.sendCacheSSH(username, sessionId, rows, cols, session);
+                sessionService.sendCacheSSH(username, data.getString("sessionId"), data.getInt("rows"), data.getInt("cols"), webSocketSession);
                 break;
             default:
-                System.out.println(String.format("not handled , %s", message));
+                System.out.println(String.format("not handled , %s", data.toString(4)));
                 break;
         }
+
     }
 
     @Override

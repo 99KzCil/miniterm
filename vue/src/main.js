@@ -8,6 +8,7 @@ Vue.use(VueResource);
 Vue.use(Vuetify)
 
 import 'vuetify/dist/vuetify.min.css'
+import "./assets/index.scss"
 
 import "xterm/dist/xterm.css"
 import {

@@ -11,6 +11,7 @@ import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelShell;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
+import org.json.JSONObject;
 import org.springframework.web.socket.TextMessage;
 
 public class SSHService {
@@ -25,10 +26,12 @@ public class SSHService {
     private String cache = "";
     private int rows, cols;
     private Connection connection;
+    private JSONObject data = new JSONObject();
 
     public void startConnection(com.alessoft.SessionManager.Session session, Connection connection, int rows, int cols) {
         if (channel != null && channel.isConnected()) {
-            writeToWebSocket("///term///" + cache);
+            sendToTerminal(cache);
+
             this.rows = rows;
             this.cols = cols;
             ((ChannelShell) channel).setPtySize(cols, rows, 0, 0);
@@ -65,36 +68,49 @@ public class SSHService {
                         String incoming = new String(tmp, 0, read);
                         cache += incoming;
                         if (cache.length() > rows * cols * 35) cache = cache.substring(cache.length() - rows * cols * 35, cache.length());
-                        writeToWebSocket("///term///" + incoming);
+                        sendToTerminal(incoming);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                writeToWebSocket("///setClosed///");
+                sendSetState("closed");
                 session.setState("closed");
                 cache += "\r\n---press enter to relogin---\r\n\r\n---press escape to close tab---\r\n\r\n";
-                writeToWebSocket("///term///\r\n---press enter to relogin---\r\n\r\n");
-                writeToWebSocket("///term///---press escape to close tab---\r\n\r\n");
-
+                sendToTerminal("\r\n---press enter to relogin---\r\n\r\n---press escape to close tab---\r\n\r\n");
             });
 
-
-            writeToWebSocket("///term///Connecting to " + connection.getName() + "...\r\n\r\n");
+            sendToTerminal("Connecting to " + connection.getName() + "...\r\n\r\n");
             ((ChannelShell) channel).setPtyType("xterm-256color", cols, rows, 0, 0);
             channel.connect();
-            writeToWebSocket("///setStarted///");
+            sendSetState("started");
             session.setState("started");
         } catch (Exception e) {
             cache += e.getMessage() + "\r\n";
-            writeToWebSocket("///term///" + e.getMessage() + "\r\n");
-            writeToWebSocket("///setClosed///");
+            sendToTerminal(e.getMessage() + "\r\n");
+            sendSetState("closed");
             session.setState("closed");
         }
     }
 
-    private synchronized void writeToWebSocket(String message) {
+    private void sendToTerminal(String text) {
+        data.put("command", "terminal");
+        data.put("text", text);
+        data.remove("state");
+        data.remove("sessionId");
+        writeToWebSocket(data);
+    }
+
+    private void sendSetState(String state) {
+        data.put("command", "setState");
+        data.put("sessionId", session.getId());
+        data.put("state", state);
+        data.remove("text");
+        writeToWebSocket(data);
+    }
+
+    private synchronized void writeToWebSocket(JSONObject data) {
         try {
-            if (session.isActive() && session.getWebSocketSession().isOpen()) session.getWebSocketSession().sendMessage(new TextMessage(message));
+            if (session.isActive() && session.getWebSocketSession().isOpen()) session.getWebSocketSession().sendMessage(new TextMessage(data.toString()));
         } catch (IOException e) {
             System.out.println("could not write to socket, " + e.getMessage());
         }
@@ -118,7 +134,7 @@ public class SSHService {
 
     public void sendCache(com.alessoft.SessionManager.Session session) {
         this.session = session;
-        writeToWebSocket("///term///" + cache);
+        sendToTerminal(cache);
     }
 
     public void endConnection() {
