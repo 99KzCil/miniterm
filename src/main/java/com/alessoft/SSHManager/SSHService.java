@@ -45,9 +45,10 @@ public class SSHService {
             sshSession = jsch.getSession(connection.getUsername(), connection.getHost(), connection.getPort());
             if (connection.getPrivateKey() != null) {
                 if (connection.getPrivateKeyPassword() != null) {
-                    jsch.addIdentity(AES.decode(connection.getPrivateKey()), AES.encode(connection.getPrivateKeyPassword()));
+                    jsch.addIdentity("", AES.decode(connection.getPrivateKey()).getBytes(), null, AES.encode(connection.getPrivateKeyPassword()).getBytes());
                 } else {
-                    jsch.addIdentity(AES.decode(connection.getPrivateKey()));
+                    jsch.addIdentity("", AES.decode(connection.getPrivateKey()).getBytes(), null, null);
+                    // jsch.addIdentity(AES.decode(connection.getPrivateKey()));
                 }
             } else {
                 sshSession.setPassword(AES.decode(connection.getPassword()));

@@ -32,6 +32,7 @@ export default {
   },
   methods: {
     activateTerminal(session) {
+      if (currentSession == session) return;
       Vue.nextTick(() => {
         component.$parent.$parent.showTerminal = false;
 

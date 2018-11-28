@@ -33,6 +33,7 @@ public class ConnectionService {
             connectionRepo.save(connection);
             return ResponseEntity.ok("");
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
