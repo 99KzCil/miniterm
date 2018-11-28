@@ -42,13 +42,15 @@ public class SSHService {
         this.cols = cols;
         this.connection = connection;
         try {
+            sendToTerminal("Connecting to " + connection.getName() + "...\r\n\r\n");
+
+            
             sshSession = jsch.getSession(connection.getUsername(), connection.getHost(), connection.getPort());
             if (connection.getPrivateKey() != null) {
                 if (connection.getPrivateKeyPassword() != null) {
                     jsch.addIdentity("", AES.decode(connection.getPrivateKey()).getBytes(), null, AES.encode(connection.getPrivateKeyPassword()).getBytes());
                 } else {
                     jsch.addIdentity("", AES.decode(connection.getPrivateKey()).getBytes(), null, null);
-                    // jsch.addIdentity(AES.decode(connection.getPrivateKey()));
                 }
             } else {
                 sshSession.setPassword(AES.decode(connection.getPassword()));
@@ -80,7 +82,6 @@ public class SSHService {
                 sendToTerminal("\r\n---press enter to relogin---\r\n\r\n---press escape to close tab---\r\n\r\n");
             });
 
-            sendToTerminal("Connecting to " + connection.getName() + "...\r\n\r\n");
             ((ChannelShell) channel).setPtyType("xterm", cols, rows, 0, 0);
             channel.connect();
             sendSetState("started");

@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     loadSessions() {
-      this.$http.get("/api/session/getSessions").then(e => {
+      this.$http.get(subdir + "/api/session/getSessions").then(e => {
         this.sessions.length = 0;
         for (var key in e.body)
           if (e.body.hasOwnProperty(key)) this.sessions.push(e.body[key]);
@@ -49,7 +49,7 @@ export default {
       });
     },
     newSession(connection) {
-      this.$http.post("/api/session/newSession", connection.id).then(e => {
+      this.$http.post(subdir + "/api/session/newSession", connection.id).then(e => {
         this.sessions.push(e.body);
         this.activateSession(e.body);
       });
@@ -65,7 +65,7 @@ export default {
       bus.$emit("activateTerminal", session);
     },
     removeSession(session) {
-      this.$http.post("/api/session/remove", session.id).then(() => {
+      this.$http.post(subdir + "/api/session/remove", session.id).then(() => {
         this.$parent.$parent.sessions = this.$parent.$parent.sessions.filter(
           e => {
             return e.id != session.id;
@@ -81,6 +81,7 @@ export default {
       this.sessions.forEach(session => {
         session.active = false;
       });
+      // this is necessary
       this.$forceUpdate();
     },
     stateData(data) {

@@ -13,7 +13,14 @@
                   <v-text-field label="hidden" style="display:none"></v-text-field>
                   <v-text-field v-model="user.username" label="username" required></v-text-field>
                   <v-text-field v-model="user.password" type="password" label="password" required></v-text-field>
-                  <v-btn type="submit" :loading="working" @click.stop.prevent="login" class="ma-0 text-lowercase" dark color="secondary">Login</v-btn>
+                  <v-btn
+                    type="submit"
+                    :loading="working"
+                    @click.stop.prevent="login"
+                    class="ma-0 text-lowercase"
+                    dark
+                    color="secondary"
+                  >Login</v-btn>
                 </v-form>
               </v-flex>
             </v-card-title>
@@ -41,16 +48,16 @@ export default {
     component = this;
     bus.$off("logout");
     bus.$on("logout", () => {
-      this.$http.post("/api/login/logout").then(() => {
+      this.$http.post(subdir + "/api/login/logout").then(() => {
         Router.replace("/");
       });
     });
-    this.$http.post("/api/login/check").then(result, result);
+    this.$http.post(subdir + "/api/login/check").then(result, result);
   },
   methods: {
     login() {
       this.working = true;
-      this.$http.post("/api/login", this.user).then(result, result);
+      this.$http.post(subdir + "/api/login", this.user).then(result, result);
     }
   }
 };

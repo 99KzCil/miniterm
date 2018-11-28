@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="400">
+  <v-dialog v-model="dialog" width="400" @keydown.esc="dialog = false" @keydown.enter="closeSession" @keydown.space="closeSession">
     <v-card>
       <v-card-title class="headline primary white--text" dark>
         <v-icon left dark>desktop_windows</v-icon>

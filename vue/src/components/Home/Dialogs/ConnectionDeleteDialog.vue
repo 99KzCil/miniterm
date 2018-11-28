@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="400">
+  <v-dialog v-model="dialog" width="400" @keydown.esc="dialog = false" @keydown.enter="deleteConnection" @keydown.space="deleteConnection">
     <v-card>
       <v-card-title class="headline primary white--text" dark>
         <v-icon left dark>desktop_windows</v-icon>
@@ -42,7 +42,7 @@ export default {
   methods: {
     deleteConnection() {
       this.working = true;
-      this.$http.post("/api/connection/remove", this.connection).then(() => {
+      this.$http.post(subdir + "/api/connection/remove", this.connection).then(() => {
         this.working = false;
         this.dialog = false;
         bus.$emit("loadConnections");

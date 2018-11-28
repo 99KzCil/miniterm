@@ -64,15 +64,16 @@ export default {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 
-  ::-webkit-scrollbar {
-    display: none;
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 5px;
   }
 
-  ::-webkit-scrollbar-track {
+  &::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.1);
   }
 
-  ::-webkit-scrollbar-thumb {
+  &::-webkit-scrollbar-thumb {
     background: #b0bec5 !important;
   }
 }

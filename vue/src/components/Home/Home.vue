@@ -50,6 +50,11 @@ export default {
     NavSessionList,
     Terminal
   },
+  watch: {
+    hideDrawer() {
+      localStorage.hideDrawer = "" + this.hideDrawer;
+    }
+  },
   data() {
     return {
       loadingSessions: true,
@@ -61,7 +66,7 @@ export default {
   },
   methods: {
     loadConnections() {
-      this.$http.get("/api/connection/get").then(e => {
+      this.$http.get(subdir + "/api/connection/get").then(e => {
         this.connections = e.body;
       });
     },
@@ -70,6 +75,7 @@ export default {
     }
   },
   mounted() {
+    if (localStorage.hideDrawer) this.hideDrawer = localStorage.hideDrawer == "true";
     this.loadConnections();
     bus.$off("loadConnections");
     bus.$on("loadConnections", this.loadConnections);

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="400">
+  <v-dialog v-model="dialog" width="400" @keydown.esc="dialog = false" @keydown.enter="saveConnection" @keydown.space="saveConnection">
     <v-card id="connectionDialog">
       <v-card-title class="headline primary white--text" dark>
         <v-icon left dark>desktop_windows</v-icon>
@@ -103,7 +103,7 @@ export default {
       this.$refs.form.validate();
       if (!this.valid) return;
       if (!this.connection.password && !this.connection.privateKey) return;
-      this.$http.post("/api/connection/save", this.connection).then(() => {
+      this.$http.post(subdir + "/api/connection/save", this.connection).then(() => {
         this.dialog = false;
         bus.$emit("loadConnections");
       });

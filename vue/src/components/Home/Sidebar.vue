@@ -5,7 +5,13 @@
         <v-img max-height="32" max-width="32" style="margin:0 4px" src="/static/icon.png"/>
         <span class="ml-3">miniterm</span>
         <v-spacer></v-spacer>
-        <v-btn flat icon small class="elevation-0 ma-0" @click="$parent.$parent.$parent.hideDrawer=true">
+        <v-btn
+          flat
+          icon
+          small
+          class="elevation-0 ma-0"
+          @click="$parent.$parent.$parent.hideDrawer=true"
+        >
           <v-icon>arrow_left</v-icon>
         </v-btn>
       </v-subheader>

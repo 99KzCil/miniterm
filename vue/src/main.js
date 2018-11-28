@@ -25,6 +25,7 @@ Terminal.applyAddon(attach);
 window.Terminal = Terminal;
 
 window.bus = new Vue;
+window.subdir = location.href.indexOf("miniterm") == -1 ? "" : "/miniterm";
 
 new Vue({
   el: '#app',
