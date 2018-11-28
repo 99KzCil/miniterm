@@ -1,5 +1,5 @@
 window.subdir = location.href.indexOf("miniterm") == -1 ? "" : "/miniterm";
-
+console.log("mainjs, " + window.subdir);
 
 import Vue from 'vue'
 import Vuetify from 'vuetify'

@@ -5,6 +5,7 @@ import Login from '@/components/Login'
 import Home from '@/components/Home/Home'
 
 Vue.use(Router)
+console.log("router, " + window.subdir);
 
 var router = new Router({
   mode: 'history',
