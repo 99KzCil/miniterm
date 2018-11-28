@@ -5,7 +5,7 @@ import SockJS from "sockjs-client";
 var socket;
 export default {
   mounted() {
-    socket = new SockJS("/api/ssh");
+    socket = new SockJS(window.subdir + "/api/ssh");
     socket.onopen = this.socketOpened;
     socket.onmessage = this.socketMessageReceived;
 
