@@ -63,6 +63,7 @@ public class Jwt {
     public void deleteCookie() {
         Cookie cookie = new Cookie("access_token", "");
         cookie.setPath("/");
+        cookie.setSecure(true);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
     }
