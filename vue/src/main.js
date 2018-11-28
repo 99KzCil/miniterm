@@ -1,5 +1,3 @@
-console.log("mainjs, " + window.subdir);
-
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import VueResource from 'vue-resource'

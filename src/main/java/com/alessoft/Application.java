@@ -30,8 +30,8 @@ public class Application {
         if (userRepo.count() > 0) return;
         System.out.println("add new user");
         User user = new User();
-        user.setUsername("admin");
-        user.setPassword(AES.encode("admin"));
+        user.setUsername("niyazi");
+        user.setPassword(AES.encode("Enesenen123Alessoft123---"));
         user.setType("admin");
         userRepo.save(user);
     }
