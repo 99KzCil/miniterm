@@ -42,7 +42,7 @@ export default {
   methods: {
     deleteConnection() {
       this.working = true;
-      this.$http.post(href + "api/connection/remove", this.connection).then(() => {
+      this.$http.post( "api/connection/remove", this.connection).then(() => {
         this.working = false;
         this.dialog = false;
         bus.$emit("loadConnections");

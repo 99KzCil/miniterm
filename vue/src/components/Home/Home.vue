@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     loadConnections() {
-      this.$http.get(href + "api/connection/get").then(e => {
+      this.$http.get( "api/connection/get").then(e => {
         this.connections = e.body;
       });
     },

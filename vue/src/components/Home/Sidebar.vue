@@ -2,7 +2,7 @@
   <v-card fill-height height="100%" color="#fafafa">
     <v-list subheader>
       <v-subheader class="headline primary white--text" dark>
-        <v-img max-height="32" max-width="32" style="margin:0 4px" :src="href+'/static/icon.png'"/>
+        <v-img max-height="32" max-width="32" style="margin:0 4px" :src="'static/icon.png'"/>
         <span class="ml-3">miniterm</span>
         <v-spacer></v-spacer>
         <v-btn

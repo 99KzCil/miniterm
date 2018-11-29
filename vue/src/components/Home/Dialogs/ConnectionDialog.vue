@@ -103,7 +103,7 @@ export default {
       this.$refs.form.validate();
       if (!this.valid) return;
       if (!this.connection.password && !this.connection.privateKey) return;
-      this.$http.post(href + "api/connection/save", this.connection).then(() => {
+      this.$http.post( "api/connection/save", this.connection).then(() => {
         this.dialog = false;
         bus.$emit("loadConnections");
       });

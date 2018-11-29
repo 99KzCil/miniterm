@@ -7,7 +7,8 @@ import Home from '@/components/Home/Home'
 Vue.use(Router)
 
 var router = new Router({
-  mode: 'history',
+  // mode: 'history',
+  // base: "/miniterm",
   routes: [{
     path: '/',
     component: Login
