@@ -85,9 +85,6 @@ export default {
 </script>
 <style lang=scss scoped>
 #app {
-  background: #fafafa url("../../../static/cool-background.jpg");
-  background-size: cover;
-
   &.hideDrawer {
     .v-navigation-drawer {
       transform: translateX(-300px) !important;
