@@ -45,19 +45,20 @@ export default {
     };
   },
   mounted() {
+    window.href = location.href;
     component = this;
     bus.$off("logout");
     bus.$on("logout", () => {
-      this.$http.post(subdir + "/api/login/logout").then(() => {
+      this.$http.post(href + "api/login/logout").then(() => {
         Router.replace("/");
       });
     });
-    this.$http.post(subdir + "/api/login/check").then(result, result);
+    this.$http.post(href + "api/login/check").then(result, result);
   },
   methods: {
     login() {
       this.working = true;
-      this.$http.post(subdir + "/api/login", this.user).then(result, result);
+      this.$http.post(href + "api/login", this.user).then(result, result);
     }
   }
 };

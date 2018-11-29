@@ -1,5 +1,7 @@
 package com.alessoft.LoginManager.Utils;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,15 +35,15 @@ public class Jwt {
 
     public Cookie getCookie() throws Exception {
         for (Cookie cook : request.getCookies())
-            if (cook.getName().equals("access_token"))
-                return cook;
+            if (cook.getName().equals("access_token")) return cook;
         throw new Exception("No logged user!");
     }
 
-    public void setJwtCookie(User dbUser) {
+    public void setJwtCookie(User dbUser) throws UnknownHostException {
         Map<String, Object> body = setBody(dbUser);
         String jwt = Jwts.builder().setClaims(body).signWith(SignatureAlgorithm.HS512, theKey).compact();
         Cookie cookie = new Cookie("access_token", jwt);
+        if (!InetAddress.getLocalHost().getHostName().equals("enes")) cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         cookie.setMaxAge(60 * 60 * 24 * 30);
@@ -63,7 +65,6 @@ public class Jwt {
     public void deleteCookie() {
         Cookie cookie = new Cookie("access_token", "");
         cookie.setPath("/");
-        cookie.setSecure(true);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
     }

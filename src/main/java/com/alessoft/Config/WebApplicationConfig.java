@@ -15,8 +15,7 @@ public class WebApplicationConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        System.err.println(registry.toString());
-        registry.addViewController("/notFound").setStatusCode(HttpStatus.OK).setViewName("redirect:/miniterm/");
+        registry.addViewController("/notFound").setStatusCode(HttpStatus.OK).setViewName("redirect:/");
     }
 
     @Bean

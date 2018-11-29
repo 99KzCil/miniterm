@@ -8,7 +8,7 @@ Vue.use(Router)
 
 var router = new Router({
   mode: 'history',
-  base: window.subdir,
+  base: location.pathname,
   routes: [{
     path: '/',
     component: Login
