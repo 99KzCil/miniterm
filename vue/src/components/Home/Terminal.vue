@@ -66,11 +66,28 @@ export default {
       if (terminal == null) {
         terminal = new Terminal({
           theme: {
-            foreground: "#000",
-            background: "#fafafa",
-            cursor: "#000",
-            selection: "rgba(0, 0, 0, 0.3)"
+            // foreground: "#ffffff",
+            background: "none",
+            // cursor: "#ffffff",
+            // selection: "rgba(255, 255, 255, 0.5)",
+            // black: "#000000",
+            // red: "#e06c75",
+            // brightRed: "#e06c75",
+            // green: "#A4EFA1",
+            // brightGreen: "#A4EFA1",
+            // brightYellow: "#EDDC96",
+            // yellow: "#EDDC96",
+            // magenta: "#e39ef7",
+            // brightMagenta: "#e39ef7",
+            // cyan: "#5fcbd8",
+            // brightBlue: "#5fcbd8",
+            // brightCyan: "#5fcbd8",
+            // blue: "#5fcbd8",
+            // white: "#d0d0d0",
+            // brightBlack: "#808080",
+            // brightWhite: "#ffffff"
           },
+          allowTransparency: true,
           fontFamily: "Lucida Console,monospace",
           fontSize: 16,
           cursorStyle: "block",
@@ -115,7 +132,9 @@ export default {
       }
     },
     terminalData(data) {
-      terminal.write(data.text);
+      if (terminal) {
+        terminal.write(data.text);
+      }
     },
     windowResized() {
       if (terminal) {
@@ -141,3 +160,8 @@ export default {
   }
 };
 </script>
+<style>
+html .xterm .xterm-viewport {
+  background-color: transparent!important;
+}
+</style>

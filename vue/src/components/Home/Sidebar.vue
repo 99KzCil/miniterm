@@ -1,5 +1,5 @@
 <template>
-  <v-card fill-height height="100%" color="#fafafa">
+  <v-card fill-height height="100%">
     <v-list subheader>
       <v-subheader class="headline primary white--text" dark>
         <v-img max-height="32" max-width="32" style="margin:0 4px" :src="'static/icon.png'"/>
@@ -95,5 +95,12 @@ export default {
 };
 </script>
 
-<style>
+<style lang=scss>
+html {
+  .v-navigation-drawer {
+    .theme--light.v-card {
+      background: transparent;
+    }
+  }
+}
 </style>

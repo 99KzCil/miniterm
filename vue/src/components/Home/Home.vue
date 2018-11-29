@@ -1,5 +1,5 @@
 <template>
-  <v-app id="vapp" :class="{hideDrawer:hideDrawer}">
+  <v-app :class="{hideDrawer:hideDrawer}">
     <v-navigation-drawer permanent class="elevation-0" app light>
       <sidebar/>
     </v-navigation-drawer>
@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     loadConnections() {
-      this.$http.get( "api/connection/get").then(e => {
+      this.$http.get("api/connection/get").then(e => {
         this.connections = e.body;
       });
     },
@@ -75,7 +75,8 @@ export default {
     }
   },
   mounted() {
-    if (localStorage.hideDrawer) this.hideDrawer = localStorage.hideDrawer == "true";
+    if (localStorage.hideDrawer)
+      this.hideDrawer = localStorage.hideDrawer == "true";
     this.loadConnections();
     bus.$off("loadConnections");
     bus.$on("loadConnections", this.loadConnections);
@@ -83,7 +84,7 @@ export default {
 };
 </script>
 <style lang=scss scoped>
-#vapp {
+#app {
   &.hideDrawer {
     .v-navigation-drawer {
       transform: translateX(-300px) !important;

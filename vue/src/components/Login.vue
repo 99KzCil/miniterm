@@ -5,6 +5,7 @@
         <v-flex md6 xl3>
           <v-card>
             <v-toolbar flat color="primary" dark>
+              <v-img max-height="32" max-width="32" :src="'static/icon.png'"/>
               <v-toolbar-title>miniterm login</v-toolbar-title>
             </v-toolbar>
             <v-card-title primary-title>
@@ -49,17 +50,17 @@ export default {
     component = this;
     bus.$off("logout");
     bus.$on("logout", () => {
-      this.$http.post( "api/login/logout").then(() => {
+      this.$http.post("api/login/logout").then(() => {
         Router.replace("/");
       });
     });
     console.log(href);
-    this.$http.post( "api/login/check").then(result, result);
+    this.$http.post("api/login/check").then(result, result);
   },
   methods: {
     login() {
       this.working = true;
-      this.$http.post( "api/login", this.user).then(result, result);
+      this.$http.post("api/login", this.user).then(result, result);
     }
   }
 };
