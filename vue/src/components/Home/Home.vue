@@ -1,6 +1,6 @@
 <template>
   <v-app :class="{hideDrawer:hideDrawer}">
-    <v-navigation-drawer permanent class="elevation-0" app light>
+    <v-navigation-drawer width="280" permanent class="elevation-0" app light>
       <sidebar/>
     </v-navigation-drawer>
     <v-toolbar dense class="elevation-0" color="primary" dark app>
