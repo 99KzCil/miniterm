@@ -1,4 +1,4 @@
 db
 target
 node_modules
-app.log
+app.log*

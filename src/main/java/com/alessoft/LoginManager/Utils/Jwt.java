@@ -43,7 +43,10 @@ public class Jwt {
         Map<String, Object> body = setBody(dbUser);
         String jwt = Jwts.builder().setClaims(body).signWith(SignatureAlgorithm.HS512, theKey).compact();
         Cookie cookie = new Cookie("access_token", jwt);
-        if (!InetAddress.getLocalHost().getHostName().equals("enes")) cookie.setSecure(true);
+        if (!InetAddress.getLocalHost().getHostName().equals("enes")) {
+            System.err.println(InetAddress.getLocalHost().getHostName());
+            cookie.setSecure(true);
+        }
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         cookie.setMaxAge(60 * 60 * 24 * 30);
