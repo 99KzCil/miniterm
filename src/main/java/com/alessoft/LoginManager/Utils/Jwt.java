@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.alessoft.LoginManager.Model.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Jwts;
@@ -23,11 +24,13 @@ public class Jwt {
     @Autowired
     private HttpServletResponse response;
 
-    public static final byte[] theKey = "¯¯\\(°_o)//¯¯((i dont*know what the_secret_is))¯¯\\(o_°)//¯¯".getBytes(StandardCharsets.UTF_8);
+    public static final byte[] theKey = "¯¯\\(°_o)//¯¯((i dont*know what the_secret_is))¯¯\\(o_°)//¯¯"
+            .getBytes(StandardCharsets.UTF_8);
 
     public String getUserNameFromJwtCookie() throws Exception {
         try {
-            return Jwts.parser().setSigningKey(theKey).parseClaimsJws(getCookie().getValue()).getBody().get("username").toString();
+            return Jwts.parser().setSigningKey(theKey).parseClaimsJws(getCookie().getValue()).getBody().get("username")
+                    .toString();
         } catch (Exception e) {
             throw new Exception("No user logged in!");
         }
@@ -35,7 +38,8 @@ public class Jwt {
 
     public Cookie getCookie() throws Exception {
         for (Cookie cook : request.getCookies())
-            if (cook.getName().equals("access_token")) return cook;
+            if (cook.getName().equals("access_token"))
+                return cook;
         throw new Exception("No logged user!");
     }
 
@@ -43,10 +47,12 @@ public class Jwt {
         Map<String, Object> body = setBody(dbUser);
         String jwt = Jwts.builder().setClaims(body).signWith(SignatureAlgorithm.HS512, theKey).compact();
         Cookie cookie = new Cookie("access_token", jwt);
-        if (!InetAddress.getLocalHost().getHostName().equals("enes")) {
-            System.err.println(InetAddress.getLocalHost().getHostName());
-            cookie.setSecure(true);
-        }
+
+        // if (!InetAddress.getLocalHost().getHostName().equals("enes")
+        //         && !InetAddress.getLocalHost().getHostName().equals("eness-iMac.local")) {
+        //     System.err.println(InetAddress.getLocalHost().getHostName());
+        //     cookie.setSecure(true);
+        // }
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         cookie.setMaxAge(60 * 60 * 24 * 30);
