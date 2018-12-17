@@ -9,5 +9,5 @@ services:
       - ./:/app
       - ~/.m2:/root/.m2
     ports:
-      - "8090:8090"
+      - "127.0.0.1:55555:8080 "
     command: mvn clean spring-boot:run
