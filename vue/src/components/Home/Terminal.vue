@@ -68,8 +68,8 @@ export default {
           theme: {
             foreground: "#000",
             background: "#fff",
-            cursor: "#fafafa",
-            selection: "rgba(0, 0, 0, 0.8)",
+            cursor: "#444",
+            selection: "rgba(0, 0, 0, 0.3)",
             // black: "#000000",
             // red: "#e06c75",
             // brightRed: "#e06c75",
