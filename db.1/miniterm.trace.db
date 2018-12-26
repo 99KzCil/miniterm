@@ -1,0 +1,58 @@
+2018-12-18 11:24:15 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: File corrupted in chunk 52, expected map id 3, got 4 [1.4.197/6]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.writeInBackground(MVStore.java:2499)
+	at org.h2.mvstore.MVStore$BackgroundWriterThread.run(MVStore.java:2713)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: File corrupted in chunk 52, expected map id 3, got 4 [1.4.197/6]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 6 more
+Caused by: java.lang.IllegalStateException: File corrupted in chunk 52, expected map id 3, got 4 [1.4.197/6]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.Page.read(Page.java:661)
+	at org.h2.mvstore.Page.read(Page.java:186)
+	at org.h2.mvstore.MVStore.readPage(MVStore.java:1936)
+	at org.h2.mvstore.MVMap.readPage(MVMap.java:698)
+	at org.h2.mvstore.MVMap.setRootPos(MVMap.java:708)
+	at org.h2.mvstore.MVStore.openMapVersion(MVStore.java:416)
+	at org.h2.mvstore.MVMap.openVersion(MVMap.java:1090)
+	at org.h2.mvstore.MVMap.rewrite(MVMap.java:737)
+	at org.h2.mvstore.MVStore.compactRewrite(MVStore.java:1902)
+	at org.h2.mvstore.MVStore.compact(MVStore.java:1784)
+	at org.h2.mvstore.MVStore.writeInBackground(MVStore.java:2495)
+	... 1 more
+2018-12-18 12:35:23 database: could not close the database
+org.h2.message.DbException: General error: "General error: ""java.lang.IllegalStateException: File corrupted in chunk 52, expected map id 3, got 4 [1.4.197/6]"" [50000-197]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.engine.Database.throwLastBackgroundException(Database.java:2100)
+	at org.h2.engine.Database.close(Database.java:1264)
+	at org.h2.engine.DatabaseCloser.run(DatabaseCloser.java:63)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "General error: ""java.lang.IllegalStateException: File corrupted in chunk 52, expected map id 3, got 4 [1.4.197/6]"" [50000-197]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 4 more
+Caused by: org.h2.message.DbException: General error: "java.lang.IllegalStateException: File corrupted in chunk 52, expected map id 3, got 4 [1.4.197/6]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.writeInBackground(MVStore.java:2499)
+	at org.h2.mvstore.MVStore$BackgroundWriterThread.run(MVStore.java:2713)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: File corrupted in chunk 52, expected map id 3, got 4 [1.4.197/6]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 6 more
+Caused by: java.lang.IllegalStateException: File corrupted in chunk 52, expected map id 3, got 4 [1.4.197/6]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.Page.read(Page.java:661)
+	at org.h2.mvstore.Page.read(Page.java:186)
+	at org.h2.mvstore.MVStore.readPage(MVStore.java:1936)
+	at org.h2.mvstore.MVMap.readPage(MVMap.java:698)
+	at org.h2.mvstore.MVMap.setRootPos(MVMap.java:708)
+	at org.h2.mvstore.MVStore.openMapVersion(MVStore.java:416)
+	at org.h2.mvstore.MVMap.openVersion(MVMap.java:1090)
+	at org.h2.mvstore.MVMap.rewrite(MVMap.java:737)
+	at org.h2.mvstore.MVStore.compactRewrite(MVStore.java:1902)
+	at org.h2.mvstore.MVStore.compact(MVStore.java:1784)
+	at org.h2.mvstore.MVStore.writeInBackground(MVStore.java:2495)
+	... 1 more

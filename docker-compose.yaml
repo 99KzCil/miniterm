@@ -1,13 +1,24 @@
-version: '3'
-services:  
-  app:
-    container_name: miniterm
+version: "3"
+services:
+  # app:
+  #   container_name: miniterm
+  #   restart: always
+  #   image: maven:3.6.0-slim
+  #   working_dir: /app
+  #   volumes:
+  #     - ./:/app
+  #     - ~/.m2:/root/.m2
+  #   ports:
+  #     - "127.0.0.1:55555:8080"
+  #   command: mvn clean spring-boot:run
+  java:
+    container_name: miniterm_java
     restart: always
-    image: maven:3.6.0-slim
-    working_dir: /app
+    image: openjdk:8u181-jdk-alpine3.8
+    working_dir: /app/
     volumes:
-      - ./:/app
+      - ./:/app/
       - ~/.m2:/root/.m2
     ports:
       - "127.0.0.1:55555:8080"
-    command: mvn clean spring-boot:run
+    command: java -XX:+UseSerialGC -jar target/miniterm-1.jar
