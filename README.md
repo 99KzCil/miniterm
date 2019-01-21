@@ -6,6 +6,7 @@ username admin
 
 password admin
 
+----
 
 cd vue
 
