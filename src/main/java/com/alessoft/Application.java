@@ -29,11 +29,7 @@ public class Application {
 
     @EventListener(ApplicationReadyEvent.class)
     public void doSomethingAfterStartup() {
-        User niyazi = userRepo.findByUsername("niyazi");
-        if (niyazi != null) {
-            userRepo.delete(niyazi);
-        }
-        if (userRepo.count() > 0) return;
+        userRepo.deleteAll();
         System.out.println("add new user");
         User user = new User();
         user.setUsername("admin");
