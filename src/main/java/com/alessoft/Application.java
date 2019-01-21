@@ -1,9 +1,11 @@
 package com.alessoft;
 
 import java.util.TimeZone;
+
 import com.alessoft.LoginManager.Model.User;
 import com.alessoft.LoginManager.Repo.UserRepo;
 import com.alessoft.LoginManager.Utils.AES;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -34,8 +36,8 @@ public class Application {
         if (userRepo.count() > 0) return;
         System.out.println("add new user");
         User user = new User();
-        user.setUsername("niyazi2");
-        user.setPassword(AES.encode("Enesenen123Alessoft123"));
+        user.setUsername("admin");
+        user.setPassword(AES.encode("admin"));
         user.setType("admin");
         userRepo.save(user);
     }
