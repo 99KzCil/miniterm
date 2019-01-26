@@ -10,6 +10,8 @@ password admin
 
 ----
 
+# How TO
+
 cd vue
 
 npm run build
