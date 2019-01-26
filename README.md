@@ -1,4 +1,6 @@
-# miniterm
+# Miniterm Terminal Emulator
+
+![Miniterm Demo](https://j.gifs.com/K1X7LM.gif)
 
 i run this on my local machine, didnt spend time on user management.
 
