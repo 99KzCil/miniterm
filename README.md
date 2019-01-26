@@ -10,7 +10,7 @@ password admin
 
 ----
 
-# How TO
+# How To
 
 cd vue
 
